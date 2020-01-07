@@ -1,0 +1,13 @@
+{
+  "rows": 3,
+  "columns": [
+    {
+      "name": "abc",
+      "type": "string"
+    },
+    {
+      "name": "abc",
+      "type": "datetime"
+    }
+  ]
+}
