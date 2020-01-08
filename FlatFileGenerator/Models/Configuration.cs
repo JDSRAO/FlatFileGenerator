@@ -9,8 +9,9 @@ namespace FlatFileGenerator.Models
 {
     internal class Configuration
     {
+        public string Seperator { get; set; }
         public int Rows { get; set; }
-        public List<Columns> Columns { get; set; }
+        public List<Column> Columns { get; set; }
 
         public static async Task<Configuration> GetCurrentConfiguration()
         {
@@ -21,9 +22,17 @@ namespace FlatFileGenerator.Models
         }
     }
 
-    internal class Columns
+    internal class Column
     {
         public string Name { get; set; }
         public string Type { get; set; }
+        public ColumnConfig Config { get; set; }
+    }
+
+    internal class ColumnConfig
+    {
+        public string Format { get; set; }
+        public string Prefix { get; set; }
+        public string Suffix { get; set; }
     }
 }

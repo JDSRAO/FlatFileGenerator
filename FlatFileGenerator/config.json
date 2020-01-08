@@ -1,13 +1,20 @@
 {
+  "seperator": ",",
   "rows": 3,
   "columns": [
     {
       "name": "abc",
-      "type": "string"
+      "type": "string",
+      "config": {
+        "prefix": "apod"
+      }
     },
     {
       "name": "abc",
-      "type": "datetime"
+      "type": "datetime",
+      "config": {
+        "format": "dd-MM-YYYY"
+      }
     }
   ]
 }
