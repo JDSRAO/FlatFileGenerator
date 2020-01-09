@@ -1,21 +1,37 @@
 {
   "fileName": "test.csv",
   "seperator": ",",
-  "rows": 3,
+  "rows": 1000,
   "columns": [
     {
-      "name": "abc",
+      "name": "stringHeader",
       "type": "string",
       "config": {
-        "prefix": "apod"
+        "prefix": "KJDS"
       }
     },
     {
-      "name": "abc",
-      "type": "datetime",
+      "name": "number1",
+      "type": "int",
       "config": {
         "format": "dd-MM-YYYY"
       }
+    },
+    {
+      "name": "number2",
+      "type": "int"
+    },
+    {
+      "name": "number3",
+      "type": "int"
+    },
+    {
+      "name": "number4",
+      "type": "int"
+    },
+    {
+      "name": "number5",
+      "type": "int"
     }
   ]
 }

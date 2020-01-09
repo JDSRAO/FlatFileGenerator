@@ -31,7 +31,12 @@ namespace FlatFileGenerator.Models
     {
         public string Name { get; set; }
         public string Type { get; set; }
-        public ColumnConfig Config { get; set; }
+        public Dictionary<string, string>  Config { get; set; }
+
+        public Column()
+        {
+            Config = new Dictionary<string, string>();
+        }
     }
 
     internal class ColumnConfig
@@ -44,5 +49,28 @@ namespace FlatFileGenerator.Models
         public string Prefix { get; set; }
         public string Suffix { get; set; }
         public string DefaultValue { get; set; }
+    }
+
+    internal class StringConfig
+    {
+        public const string Length = "length";
+        public const string Prefix = "prefix";
+        public const string Suffix = "suffix";
+        public const string LowerCase = "lowerCase";
+    }
+
+    internal class IntConfig
+    {
+        public const string Min = "min";
+        public const string Max = "max";
+    }
+
+    internal class DateConfig
+    {
+        public const string Format = "format";
+    }
+    internal class DefaultConfig
+    {
+        public const string DefaultValue = "defaultValue";
     }
 }
