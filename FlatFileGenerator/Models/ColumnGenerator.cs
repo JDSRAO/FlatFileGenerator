@@ -10,7 +10,7 @@ namespace FlatFileGenerator.Models
     {
         public static dynamic GetColumnValue(Column column)
         {
-            var columnType = EnumExtensions<ColumnType>.Parse(column.Type);
+            var columnType = EnumExtensions<ColumnType>.ParseDisplayName(column.Type);
             dynamic columnValue = null;
             switch (columnType)
             {
