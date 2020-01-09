@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace FlatFileGenerator.Models
@@ -34,7 +35,17 @@ namespace FlatFileGenerator.Models
         public static string GenerateFlatFile(Configuration config)
         {
             var fileContent = new StringBuilder();
+            fileContent.AppendLine(string.Join(',', config.Columns.Select(x => x.Name).ToArray()));
+            var values = new List<dynamic>(config.Columns.Count);
+            for (int i = 1; i <= config.Rows; i++)
+            {
+                foreach (var item in config.Columns)
+                {
 
+                }
+
+                values.Clear();
+            }
 
             return fileContent.ToString();
         }
@@ -51,6 +62,8 @@ namespace FlatFileGenerator.Models
         [Display(Name = "decimal")]
         DecimalType,
         [Display(Name = "float")]
-        FloatType
+        FloatType,
+        [Display(Name = "bool")]
+        BooleanType
     }
 }
