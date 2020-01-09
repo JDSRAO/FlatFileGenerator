@@ -18,6 +18,10 @@ namespace FlatFileGenerator.Models
         {
             var fileName = "config.json";
             var fileNameWithPath = Path.Join(Directory.GetCurrentDirectory(), fileName);
+            if(!File.Exists(fileNameWithPath))
+            {
+                throw new FileNotFoundException("Configuration file not found", fileName);
+            }
             var configJson = await File.ReadAllTextAsync(fileNameWithPath);
             return JsonConvert.DeserializeObject<Configuration>(configJson);
         }
