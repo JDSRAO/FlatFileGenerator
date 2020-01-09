@@ -48,7 +48,7 @@ namespace FlatFileGenerator.Models
                 fileContent.Append("\n");
             }
 
-            return fileContent.ToString();
+            return fileContent.ToString().Trim();
         }
     }
 
