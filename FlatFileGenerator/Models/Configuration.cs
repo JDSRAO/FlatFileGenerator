@@ -32,8 +32,12 @@ namespace FlatFileGenerator.Models
 
     internal class ColumnConfig
     {
+        public int Length { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
         public string Format { get; set; }
         public string Prefix { get; set; }
         public string Suffix { get; set; }
+        public string DefaultValue { get; set; }
     }
 }
