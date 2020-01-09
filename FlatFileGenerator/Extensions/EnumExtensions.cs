@@ -25,13 +25,22 @@ namespace FlatFileGenerator.Extensions
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
-        public static T ParseDisplayName(string value)
+        public static T ParseDisplayName(string value, bool ignoreCase = true)
         {
             List<EnumResults> enumMetadata = GetEnumMetadata();
 
             T parsedEnum = default(T);
-
-            var currentEnumMetada = enumMetadata.Where(x => x.DisplayAttribute.Name.Equals(value)).FirstOrDefault();
+            EnumResults currentEnumMetada;
+            if (ignoreCase)
+            {
+                var comparison = StringComparison.InvariantCultureIgnoreCase;
+                currentEnumMetada = enumMetadata.Where(x => x.DisplayAttribute.Name.Equals(value, comparison)).FirstOrDefault();
+            }
+            else
+            {
+                currentEnumMetada = enumMetadata.Where(x => x.DisplayAttribute.Name.Equals(value)).FirstOrDefault();
+            }
+            
             if (currentEnumMetada != null)
             {
                 if (Enum.TryParse<T>(currentEnumMetada.FieldInfo.Name, out parsedEnum))
