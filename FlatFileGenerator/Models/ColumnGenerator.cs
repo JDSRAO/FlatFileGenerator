@@ -16,10 +16,12 @@ namespace FlatFileGenerator.Models
             switch (columnType)
             {
                 case ColumnType.StringType:
+                    columnValue = RandomGenerator.Value<string>(column.Config);
                     break;
                 case ColumnType.DateType:
                     break;
                 case ColumnType.IntergerType:
+                    columnValue = RandomGenerator.Value<int>(column.Config);
                     break;
                 case ColumnType.DecimalType:
                     break;
@@ -36,15 +38,14 @@ namespace FlatFileGenerator.Models
         {
             var fileContent = new StringBuilder();
             fileContent.AppendLine(string.Join(',', config.Columns.Select(x => x.Name).ToArray()));
-            var values = new List<dynamic>(config.Columns.Count);
             for (int i = 1; i <= config.Rows; i++)
             {
-                foreach (var item in config.Columns)
+                foreach (var column in config.Columns)
                 {
-
+                    fileContent.Append(GetColumnValue(column) + ",");
                 }
-
-                values.Clear();
+                fileContent.Remove(fileContent.Length - 1, 1);
+                fileContent.Append("\n");
             }
 
             return fileContent.ToString();

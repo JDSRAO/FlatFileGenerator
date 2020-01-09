@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlatFileGenerator.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,14 +7,32 @@ namespace FlatFileGenerator.Models
 {
     internal class RandomGenerator
     {
-        public static dynamic Value(Column column)
+        private static Random random { get; } = new Random();
+
+        public static dynamic Value<T>(Dictionary<string, string> config)
         {
-            return null;
+            var currentType = typeof(T);
+            dynamic value;
+            if (currentType == typeof(string))
+            {
+                value = RandomString(config);
+            }
+            else if(currentType == typeof(int))
+            {
+                value = RandomInt(config);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Type of {currentType} is invalid");
+            }
+            return value;
         }
 
-        private string RandomString(int size, bool lowerCase)
+        private static string RandomString(Dictionary<string, string> config)
         {
-            var random = new Random();
+            int size = config.GetValueAndCompare<int>(StringConfig.Length, 5);
+            bool lowerCase = config.GetValueAndCompare<bool>(StringConfig.Length, true);
+
             var builder = new StringBuilder();
             char ch;
             for (int i = 0; i < size; i++)
@@ -21,14 +40,32 @@ namespace FlatFileGenerator.Models
                 ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
                 builder.Append(ch);
             }
+
+            var randomString = builder.ToString();
+            var prefix = config.GetValueOrDefault(StringConfig.Prefix);
+            var suffix = config.GetValueOrDefault(StringConfig.Suffix);
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                randomString = $"{prefix}{randomString}";
+            }
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                randomString = $"{randomString}{suffix}";
+            }
+
             if (lowerCase)
-                return builder.ToString().ToLower();
-            return builder.ToString();
+                return randomString.ToLower();
+            return randomString;
         }
 
-        private int RandomInt(int min, int max)
+        private static int RandomInt(Dictionary<string, string> config)
         {
-            var random = new Random();
+            int min = config.GetValueAndCompare<int>(IntConfig.Min, 1);
+            int max = config.GetValueAndCompare<int>(IntConfig.Min, 1000);
+            if(min > max)
+            {
+                max = min + 1000;
+            }
             return random.Next(min, max);
         }
     }
