@@ -25,10 +25,18 @@ namespace FlatFileGenerator.Models
                 case ColumnType.FloatType:
                     break;
                 default:
-                    break;
+                    throw new InvalidOperationException($"Column of type {columnType} is not valid");
             }
 
             return columnValue;
+        }
+
+        public static string GenerateFlatFile(Configuration config)
+        {
+            var fileContent = new StringBuilder();
+
+
+            return fileContent.ToString();
         }
     }
 

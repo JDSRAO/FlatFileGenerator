@@ -1,4 +1,5 @@
 {
+  "fileName": "test.csv",
   "seperator": ",",
   "rows": 3,
   "columns": [
