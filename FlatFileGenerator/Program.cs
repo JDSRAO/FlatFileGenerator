@@ -14,9 +14,14 @@ namespace FlatFileGenerator
             {
                 var config = Configuration.GetCurrentConfiguration().Result;
                 var flatFileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmssffff")}_{config.FileName}";
+                var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
                 Console.WriteLine("-- Generating flat file --");
                 var flatFileContent = ColumnGenerator.GenerateFlatFile(config);
-                var flatFilePath = Path.Combine(Directory.GetCurrentDirectory(), flatFileName);
+                var flatFilePath = Path.Combine(baseFilePath, flatFileName);
+                if(!Directory.Exists(baseFilePath))
+                {
+                    Directory.CreateDirectory(baseFilePath);
+                }
                 File.WriteAllText(flatFilePath, flatFileContent);
                 Console.WriteLine($"-- Flat file with name {flatFileName} generated--");
             }
