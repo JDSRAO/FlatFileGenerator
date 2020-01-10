@@ -1,6 +1,8 @@
 ﻿using FlatFileGenerator.Models;
 using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace FlatFileGenerator
 {
@@ -15,14 +17,14 @@ namespace FlatFileGenerator
                 var config = Configuration.GetCurrentConfiguration().Result;
                 var flatFileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmssffff")}_{config.FileName}";
                 var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
-                Console.WriteLine("-- Generating flat file --");
-                var flatFileContent = ColumnGenerator.GenerateFlatFile(config);
                 var flatFilePath = Path.Combine(baseFilePath, flatFileName);
-                if(!Directory.Exists(baseFilePath))
+                if (!Directory.Exists(baseFilePath))
                 {
                     Directory.CreateDirectory(baseFilePath);
                 }
-                File.WriteAllText(flatFilePath, flatFileContent);
+
+                Console.WriteLine("-- Generating flat file --");
+                GenerateFlatFile(config, flatFilePath);
                 Console.WriteLine($"-- Flat file with name {flatFileName} generated--");
             }
             catch (Exception ex)
@@ -32,6 +34,26 @@ namespace FlatFileGenerator
 
             Console.WriteLine("Completed. Please press enter to exit");
             Console.ReadLine();
+        }
+
+        private static void GenerateFlatFile(Configuration config, string flatFilePath)
+        {
+            var fileContent = new StringBuilder();
+            fileContent.AppendLine(string.Join(',', config.Columns.Select(x => x.Name).ToArray()));
+            for (int i = 1; i <= config.Rows; i++)
+            {
+                foreach (var column in config.Columns)
+                {
+                    fileContent.Append(ColumnGenerator.GetColumnValue(column) + ",");
+                }
+                fileContent.Remove(fileContent.Length - 1, 1);
+                fileContent.Append("\n");
+            }
+
+            var flatFileContent = fileContent.ToString().Trim();
+
+            
+            File.WriteAllText(flatFilePath, flatFileContent);
         }
     }
 }

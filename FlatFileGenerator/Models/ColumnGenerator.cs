@@ -19,6 +19,7 @@ namespace FlatFileGenerator.Models
                     columnValue = RandomGenerator.Value<string>(column.Config);
                     break;
                 case ColumnType.DateType:
+                    columnValue = RandomGenerator.Value<DateTime>(column.Config);
                     break;
                 case ColumnType.IntergerType:
                     columnValue = RandomGenerator.Value<int>(column.Config);
@@ -27,28 +28,22 @@ namespace FlatFileGenerator.Models
                     break;
                 case ColumnType.FloatType:
                     break;
+                case ColumnType.DefaultType:
+                    var defaultValue = column.Config.GetValueOrDefault(DefaultConfig.DefaultValue);
+                    if(string.IsNullOrEmpty(defaultValue))
+                    {
+                        throw new ArgumentNullException(DefaultConfig.DefaultValue + "should be specified");
+                    }
+                    else
+                    {
+                        columnValue = defaultValue;
+                    }
+                    break;
                 default:
                     throw new InvalidOperationException($"Column of type {columnType} is not valid");
             }
 
             return columnValue;
-        }
-
-        public static string GenerateFlatFile(Configuration config)
-        {
-            var fileContent = new StringBuilder();
-            fileContent.AppendLine(string.Join(',', config.Columns.Select(x => x.Name).ToArray()));
-            for (int i = 1; i <= config.Rows; i++)
-            {
-                foreach (var column in config.Columns)
-                {
-                    fileContent.Append(GetColumnValue(column) + ",");
-                }
-                fileContent.Remove(fileContent.Length - 1, 1);
-                fileContent.Append("\n");
-            }
-
-            return fileContent.ToString().Trim();
         }
     }
 
@@ -56,7 +51,7 @@ namespace FlatFileGenerator.Models
     {
         [Display(Name = "string")]
         StringType,
-        [Display(Name = "datetime")]
+        [Display(Name = "date")]
         DateType,
         [Display(Name = "int")]
         IntergerType,
@@ -65,6 +60,8 @@ namespace FlatFileGenerator.Models
         [Display(Name = "float")]
         FloatType,
         [Display(Name = "bool")]
-        BooleanType
+        BooleanType,
+        [Display(Name = "default")]
+        DefaultType
     }
 }

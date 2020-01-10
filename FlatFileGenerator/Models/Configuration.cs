@@ -68,7 +68,9 @@ namespace FlatFileGenerator.Models
     internal class DateConfig
     {
         public const string Format = "format";
+        public const string DefaultFormat = "yyyyMMddHHmmssffff";
     }
+
     internal class DefaultConfig
     {
         public const string DefaultValue = "defaultValue";

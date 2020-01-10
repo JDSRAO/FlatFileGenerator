@@ -21,6 +21,10 @@ namespace FlatFileGenerator.Models
             {
                 value = RandomInt(config);
             }
+            else if(currentType == typeof(DateTime))
+            {
+                value = RandomDate(config);
+            }
             else
             {
                 throw new InvalidOperationException($"Type of {currentType} is invalid");
@@ -67,6 +71,12 @@ namespace FlatFileGenerator.Models
                 max = min + 1000;
             }
             return random.Next(min, max);
+        }
+
+        private static string RandomDate(Dictionary<string, string> config)
+        {
+            string format = config.GetValueOrExpected<string>(DateConfig.Format, DateConfig.DefaultFormat);
+            return DateTime.UtcNow.ToString(format);
         }
     }
 }
