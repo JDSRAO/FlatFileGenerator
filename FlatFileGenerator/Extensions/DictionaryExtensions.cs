@@ -6,7 +6,7 @@ namespace FlatFileGenerator.Extensions
 {
     public static class DictionaryExtensions
     {
-        public static T GetValueAndCompare<T>(this Dictionary<string, string> dict, string key, object expectedValue)
+        public static T GetValueOrExpected<T>(this Dictionary<string, string> dict, string key, object expectedValue)
         {
             T value;
             string dictValue;

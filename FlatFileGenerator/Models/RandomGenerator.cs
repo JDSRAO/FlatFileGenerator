@@ -30,8 +30,8 @@ namespace FlatFileGenerator.Models
 
         private static string RandomString(Dictionary<string, string> config)
         {
-            int size = config.GetValueAndCompare<int>(StringConfig.Length, 5);
-            bool lowerCase = config.GetValueAndCompare<bool>(StringConfig.Length, true);
+            int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
+            bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
 
             var builder = new StringBuilder();
             char ch;
@@ -60,8 +60,8 @@ namespace FlatFileGenerator.Models
 
         private static int RandomInt(Dictionary<string, string> config)
         {
-            int min = config.GetValueAndCompare<int>(IntConfig.Min, 1);
-            int max = config.GetValueAndCompare<int>(IntConfig.Min, 1000);
+            int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
+            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
             if(min > max)
             {
                 max = min + 1000;
