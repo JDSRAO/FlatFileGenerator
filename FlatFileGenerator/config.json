@@ -14,7 +14,7 @@
       "name": "Today date",
       "type": "default",
       "config": {
-        "defaultValue": "dd-MM-yyyy"
+        "defaultValue": "kjds"
       }
     },
     {
