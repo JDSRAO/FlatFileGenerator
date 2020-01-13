@@ -37,15 +37,7 @@ namespace FlatFileGenerator.Models
             int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
             bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
 
-            var builder = new StringBuilder();
-            char ch;
-            for (int i = 0; i < size; i++)
-            {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
-                builder.Append(ch);
-            }
-
-            var randomString = builder.ToString();
+            string randomString = GenerateString(size);
             var prefix = config.GetValueOrDefault(StringConfig.Prefix);
             var suffix = config.GetValueOrDefault(StringConfig.Suffix);
             if (!string.IsNullOrEmpty(prefix))
@@ -95,6 +87,25 @@ namespace FlatFileGenerator.Models
             }
 
             return defaultValue;
+        }
+
+        public static string RandomEmail(Dictionary<string, string> config)
+        {
+            return $"{GenerateString(5)}@{GenerateString(5)}.{GenerateString(3)}".ToLower();
+        }
+
+        private static string GenerateString(int size)
+        {
+            var builder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+
+            var randomString = builder.ToString();
+            return randomString;
         }
     }
 }

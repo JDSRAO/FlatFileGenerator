@@ -29,6 +29,7 @@ namespace FlatFileGenerator.Models
                 case ColumnType.FloatType:
                     break;
                 case ColumnType.EmailType:
+                    columnValue = RandomGenerator.RandomEmail(column.Config);
                     break;
                 case ColumnType.BooleanType:
                     columnValue = RandomGenerator.RandomBool(column.Config);
