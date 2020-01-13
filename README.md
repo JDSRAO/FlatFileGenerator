@@ -17,7 +17,8 @@ Help us improve out the application by sending us pull-requests or opening a [Gi
 ## Installation
 
 ## Usage
-### Configuration Options
+Please refer wiki page for more information.
+
 
 ## License
 Please refer [here](LICENSE) for license information
