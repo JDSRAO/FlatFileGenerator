@@ -16,13 +16,13 @@ namespace FlatFileGenerator.Models
             switch (columnType)
             {
                 case ColumnType.StringType:
-                    columnValue = RandomGenerator.Value<string>(column.Config);
+                    columnValue = RandomGenerator.RandomString(column.Config);
                     break;
                 case ColumnType.DateType:
-                    columnValue = RandomGenerator.Value<DateTime>(column.Config);
+                    columnValue = RandomGenerator.RandomDate(column.Config);
                     break;
                 case ColumnType.IntergerType:
-                    columnValue = RandomGenerator.Value<int>(column.Config);
+                    columnValue = RandomGenerator.RandomInt(column.Config);
                     break;
                 case ColumnType.DecimalType:
                     break;

@@ -9,30 +9,30 @@ namespace FlatFileGenerator.Models
     {
         private static Random random { get; } = new Random();
 
-        public static dynamic Value<T>(Dictionary<string, string> config)
-        {
-            var currentType = typeof(T);
-            dynamic value;
-            if (currentType == typeof(string))
-            {
-                value = RandomString(config);
-            }
-            else if(currentType == typeof(int))
-            {
-                value = RandomInt(config);
-            }
-            else if(currentType == typeof(DateTime))
-            {
-                value = RandomDate(config);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Type of {currentType} is invalid");
-            }
-            return value;
-        }
+        //public static dynamic Value<T>(Dictionary<string, string> config)
+        //{
+        //    var currentType = typeof(T);
+        //    dynamic value;
+        //    if (currentType == typeof(string))
+        //    {
+        //        value = RandomString(config);
+        //    }
+        //    else if(currentType == typeof(int))
+        //    {
+        //        value = RandomInt(config);
+        //    }
+        //    else if(currentType == typeof(DateTime))
+        //    {
+        //        value = RandomDate(config);
+        //    }
+        //    else
+        //    {
+        //        throw new InvalidOperationException($"Type of {currentType} is invalid");
+        //    }
+        //    return value;
+        //}
 
-        private static string RandomString(Dictionary<string, string> config)
+        public static string RandomString(Dictionary<string, string> config)
         {
             int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
             bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
@@ -62,7 +62,7 @@ namespace FlatFileGenerator.Models
             return randomString;
         }
 
-        private static int RandomInt(Dictionary<string, string> config)
+        public static int RandomInt(Dictionary<string, string> config)
         {
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
             int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
@@ -73,7 +73,7 @@ namespace FlatFileGenerator.Models
             return random.Next(min, max);
         }
 
-        private static string RandomDate(Dictionary<string, string> config)
+        public static string RandomDate(Dictionary<string, string> config)
         {
             string format = config.GetValueOrExpected<string>(DateConfig.Format, DateConfig.DefaultFormat);
             return DateTime.UtcNow.ToString(format);
