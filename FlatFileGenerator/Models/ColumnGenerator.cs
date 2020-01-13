@@ -31,17 +31,10 @@ namespace FlatFileGenerator.Models
                 case ColumnType.EmailType:
                     break;
                 case ColumnType.BooleanType:
+                    columnValue = RandomGenerator.RandomBool(column.Config);
                     break;
                 case ColumnType.DefaultType:
-                    var defaultValue = column.Config.GetValueOrDefault(DefaultConfig.DefaultValue);
-                    if(string.IsNullOrEmpty(defaultValue))
-                    {
-                        throw new ArgumentNullException(DefaultConfig.DefaultValue + "should be specified");
-                    }
-                    else
-                    {
-                        columnValue = defaultValue;
-                    }
+                    columnValue = RandomGenerator.RandomDefault(column.Config);
                     break;
                 case ColumnType.ListType:
                     break;

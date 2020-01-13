@@ -78,5 +78,23 @@ namespace FlatFileGenerator.Models
             string format = config.GetValueOrExpected<string>(DateConfig.Format, DateConfig.DefaultFormat);
             return DateTime.UtcNow.ToString(format);
         }
+
+        public static bool RandomBool(Dictionary<string, string> config)
+        {
+            var defaultBoolean = new bool[] { true, false };
+            var index = random.Next(0, 2);
+            return defaultBoolean[index];
+        }
+
+        public static object RandomDefault(Dictionary<string, string> config)
+        {
+            var defaultValue = config.GetValueOrDefault(DefaultConfig.DefaultValue);
+            if (string.IsNullOrEmpty(defaultValue))
+            {
+                throw new ArgumentNullException(DefaultConfig.DefaultValue + "should be specified");
+            }
+
+            return defaultValue;
+        }
     }
 }

@@ -29,7 +29,7 @@
       "type": "string"
     },
     {
-      "name": "number3",
+      "name": "SortCode",
       "type": "int"
     },
     {
@@ -37,8 +37,12 @@
       "type": "email"
     },
     {
-      "name": "number5",
-      "type": "int"
+      "name": "Amount",
+      "type": "float"
+    },
+    {
+      "name": "IsValid",
+      "type": "bool"
     }
   ]
 }
