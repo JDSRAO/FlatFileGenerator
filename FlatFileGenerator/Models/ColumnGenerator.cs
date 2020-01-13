@@ -30,6 +30,8 @@ namespace FlatFileGenerator.Models
                     break;
                 case ColumnType.EmailType:
                     break;
+                case ColumnType.BooleanType:
+                    break;
                 case ColumnType.DefaultType:
                     var defaultValue = column.Config.GetValueOrDefault(DefaultConfig.DefaultValue);
                     if(string.IsNullOrEmpty(defaultValue))
@@ -40,6 +42,8 @@ namespace FlatFileGenerator.Models
                     {
                         columnValue = defaultValue;
                     }
+                    break;
+                case ColumnType.ListType:
                     break;
                 default:
                     throw new InvalidOperationException($"Column of type {columnType} is not valid");
@@ -66,6 +70,8 @@ namespace FlatFileGenerator.Models
         [Display(Name = "default")]
         DefaultType,
         [Display(Name = "email")]
-        EmailType
+        EmailType,
+        [Display(Name = "list")]
+        ListType
     }
 }
