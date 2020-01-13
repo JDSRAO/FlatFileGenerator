@@ -28,6 +28,8 @@ namespace FlatFileGenerator.Models
                     break;
                 case ColumnType.FloatType:
                     break;
+                case ColumnType.EmailType:
+                    break;
                 case ColumnType.DefaultType:
                     var defaultValue = column.Config.GetValueOrDefault(DefaultConfig.DefaultValue);
                     if(string.IsNullOrEmpty(defaultValue))
@@ -62,6 +64,8 @@ namespace FlatFileGenerator.Models
         [Display(Name = "bool")]
         BooleanType,
         [Display(Name = "default")]
-        DefaultType
+        DefaultType,
+        [Display(Name = "email")]
+        EmailType
     }
 }

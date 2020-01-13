@@ -33,8 +33,8 @@
       "type": "int"
     },
     {
-      "name": "number4",
-      "type": "int"
+      "name": "Email",
+      "type": "email"
     },
     {
       "name": "number5",
