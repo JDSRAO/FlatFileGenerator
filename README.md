@@ -17,7 +17,7 @@ Help us improve out the application by sending us pull-requests or opening a [Gi
 ## Installation
 
 ## Usage
-Please refer wiki page for more information.
+Please refer [wiki](https://github.com/JDSRAO/FlatFileGenerator/wiki) page for more information.
 
 
 ## License
