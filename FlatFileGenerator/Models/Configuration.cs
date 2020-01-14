@@ -10,8 +10,9 @@ namespace FlatFileGenerator.Models
     internal class Configuration
     {
         public string FileName { get; set; }
+        public bool ShowRowNumber { get; set; }
         public string Seperator { get; set; }
-        public int Rows { get; set; }
+        public long Rows { get; set; }
         public List<Column> Columns { get; set; }
 
         public static async Task<Configuration> GetCurrentConfiguration()

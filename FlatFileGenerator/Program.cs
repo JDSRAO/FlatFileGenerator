@@ -39,9 +39,17 @@ namespace FlatFileGenerator
         private static void GenerateFlatFile(Configuration config, string flatFilePath)
         {
             var fileContent = new StringBuilder();
-            fileContent.AppendLine(string.Join(',', config.Columns.Select(x => x.Name).ToArray()));
+            if(config.ShowRowNumber)
+            {
+                fileContent.Append("rowNumber,");
+            }
+            fileContent.Append(string.Join(',', config.Columns.Select(x => x.Name).ToArray()) + "\n");
             for (int i = 1; i <= config.Rows; i++)
             {
+                if(config.ShowRowNumber)
+                {
+                    fileContent.Append(i + ",");
+                }
                 foreach (var column in config.Columns)
                 {
                     fileContent.Append(ColumnGenerator.GetColumnValue(column) + ",");
