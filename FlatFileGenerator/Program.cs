@@ -1,4 +1,5 @@
 ﻿using FlatFileGenerator.Core.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace FlatFileGenerator
             try
             {
                 Console.WriteLine("-- Generating flat file --");
-                var flatFileName = Configuration.GenerateFlatFile();
-                Console.WriteLine($"-- Flat file with name {flatFileName} generated--");
+                var flatFileName = Configuration.GenerateFlatFile(GetCurrentConfiguration());
+                Console.WriteLine($"-- Flat file is generated at {flatFileName} --");
             }
             catch (Exception ex)
             {
@@ -25,6 +26,18 @@ namespace FlatFileGenerator
 
             Console.WriteLine("Completed. Please press enter to exit");
             Console.ReadLine();
+        }
+
+        static Configuration GetCurrentConfiguration()
+        {
+            var fileName = "config.json";
+            var fileNameWithPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+            if (!File.Exists(fileNameWithPath))
+            {
+                throw new FileNotFoundException("Configuration file not found", fileName);
+            }
+            var configJson = File.ReadAllText(fileNameWithPath);
+            return JsonConvert.DeserializeObject<Configuration>(configJson);
         }
     }
 }

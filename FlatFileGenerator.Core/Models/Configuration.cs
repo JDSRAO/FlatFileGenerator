@@ -16,28 +16,8 @@ namespace FlatFileGenerator.Core.Models
         public long Rows { get; set; }
         public List<Column> Columns { get; set; }
 
-        public static async Task<Configuration> GetCurrentConfiguration()
-        {
-            return await Task.Run(() => 
-            {
-                var fileName = "config.json";
-                var fileNameWithPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-                if (!File.Exists(fileNameWithPath))
-                {
-                    throw new FileNotFoundException("Configuration file not found", fileName);
-                }
-                var configJson = File.ReadAllText(fileNameWithPath);
-                return JsonConvert.DeserializeObject<Configuration>(configJson);
-            });
-        }
-
-        public static string GenerateFlatFile(Configuration config = null)
-        {
-            if (config == null)
-            {
-                config = GetCurrentConfiguration().Result;
-            }
-            
+        public static string GenerateFlatFile(Configuration config)
+        {   
             return WriteFlatFileToDisk(config);
         }
 
