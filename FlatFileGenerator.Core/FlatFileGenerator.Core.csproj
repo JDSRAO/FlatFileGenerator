@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/JDSRAO/FlatFileGenerator</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/JDSRAO/FlatFileGenerator/blob/master/LICENSE</PackageLicenseUrl>
+    <Authors>KJDS Srinivasa Rao</Authors>
+    <Product>KJDS.FlatFileGenerator.Core</Product>
   </PropertyGroup>
 
   <ItemGroup>
