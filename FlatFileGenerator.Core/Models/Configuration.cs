@@ -80,21 +80,25 @@ namespace FlatFileGenerator.Core.Models
 
         private static string GenerateFlatFileContent(Configuration config)
         {
+            if(string.IsNullOrEmpty(config.Seperator))
+            {
+                config.Seperator = ",";
+            }
             var fileContent = new StringBuilder();
             if (config.ShowRowNumber)
             {
-                fileContent.Append("rowNumber,");
+                fileContent.Append("rowNumber" + config.Seperator);
             }
-            fileContent.Append(string.Join(",", config.Columns.Select(x => x.Name).ToArray()) + "\n");
+            fileContent.Append(string.Join(config.Seperator, config.Columns.Select(x => x.Name).ToArray()) + "\n");
             for (int i = 1; i <= config.Rows; i++)
             {
                 if (config.ShowRowNumber)
                 {
-                    fileContent.Append(i + ",");
+                    fileContent.Append(i + config.Seperator);
                 }
                 foreach (var column in config.Columns)
                 {
-                    fileContent.Append(ColumnGenerator.GetColumnValue(column) + ",");
+                    fileContent.Append(ColumnGenerator.GetColumnValue(column) + config.Seperator);
                 }
                 fileContent.Remove(fileContent.Length - 1, 1);
                 fileContent.Append("\n");
