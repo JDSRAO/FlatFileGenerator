@@ -5,10 +5,24 @@ using System.Text;
 
 namespace FlatFileGenerator.Core.Models
 {
+    /// <summary>
+    /// Column configuration
+    /// </summary>
     public class Column
     {
+        /// <summary>
+        /// Column name
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Column type
+        /// </summary>
         public string Type { get; set; }
+
+        /// <summary>
+        /// Column configuration
+        /// </summary>
         public Dictionary<string, string> Config { get; set; }
 
         public Column()

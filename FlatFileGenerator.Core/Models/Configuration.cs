@@ -8,19 +8,52 @@ using System.Threading.Tasks;
 
 namespace FlatFileGenerator.Core.Models
 {
+    /// <summary>
+    /// Flat file configuration
+    /// </summary>
     public class Configuration
     {
+        /// <summary>
+        /// File name
+        /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// Show row number, if set to true shows row number in the generated file
+        /// </summary>
         public bool ShowRowNumber { get; set; }
+
+        /// <summary>
+        /// Seperator to be used by default this is set to ","
+        /// </summary>
         public string Seperator { get; set; }
+
+        /// <summary>
+        /// Number of rows to generate
+        /// </summary>
         public long Rows { get; set; }
+
+        /// <summary>
+        /// Columns with their definition
+        /// </summary>
         public List<Column> Columns { get; set; }
 
+        /// <summary>
+        /// Generate flat file content based on the configuration
+        /// </summary>
+        /// <param name="config">File config</param>
+        /// <returns>Flat file content</returns>
         public static string GenerateFlatFile(Configuration config)
         {   
             return GenerateFlatFileContent(config);
         }
 
+        /// <summary>
+        /// Generate and write flat file to disk based on the configuration and path provided
+        /// </summary>
+        /// <param name="config">Flat file config</param>
+        /// <param name="path">Path to write</param>
+        /// <returns>Path where the file is written</returns>
         public static string WriteFlatFileToDisk(Configuration config, string path = null)
         {
             string flatFilePath = null;
