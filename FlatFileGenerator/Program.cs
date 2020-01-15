@@ -16,7 +16,7 @@ namespace FlatFileGenerator
             try
             {
                 Console.WriteLine("-- Generating flat file --");
-                var flatFileName = Configuration.GenerateFlatFile(GetCurrentConfiguration());
+                var flatFileName = Configuration.WriteFlatFileToDisk(GetCurrentConfiguration());
                 Console.WriteLine($"-- Flat file is generated at {flatFileName} --");
             }
             catch (Exception ex)

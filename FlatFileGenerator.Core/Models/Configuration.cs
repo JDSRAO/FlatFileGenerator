@@ -18,18 +18,35 @@ namespace FlatFileGenerator.Core.Models
 
         public static string GenerateFlatFile(Configuration config)
         {   
-            return WriteFlatFileToDisk(config);
+            return GenerateFlatFileContent(config);
         }
 
-        private static string WriteFlatFileToDisk(Configuration config)
+        public static string WriteFlatFileToDisk(Configuration config, string path = null)
         {
-            var flatFileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmssffff")}_{config.FileName}";
-            var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
-            var flatFilePath = Path.Combine(baseFilePath, flatFileName);
-            if (!Directory.Exists(baseFilePath))
+            string flatFilePath = null;
+            if (string.IsNullOrEmpty(path))
             {
-                Directory.CreateDirectory(baseFilePath);
+                var flatFileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmssffff")}_{config.FileName}";
+                var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
+                flatFilePath = Path.Combine(baseFilePath, flatFileName);
+                if (!Directory.Exists(baseFilePath))
+                {
+                    Directory.CreateDirectory(baseFilePath);
+                }
             }
+            else
+            {
+                flatFilePath = path;
+            }
+
+            string flatFileContent = GenerateFlatFileContent(config);
+
+            File.WriteAllText(flatFilePath, flatFileContent);
+            return flatFilePath;
+        }
+
+        private static string GenerateFlatFileContent(Configuration config)
+        {
             var fileContent = new StringBuilder();
             if (config.ShowRowNumber)
             {
@@ -51,10 +68,7 @@ namespace FlatFileGenerator.Core.Models
             }
 
             var flatFileContent = fileContent.ToString().Trim();
-
-
-            File.WriteAllText(flatFilePath, flatFileContent);
-            return flatFilePath;
+            return flatFileContent;
         }
     }
 }
