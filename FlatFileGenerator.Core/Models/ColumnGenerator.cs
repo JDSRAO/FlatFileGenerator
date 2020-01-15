@@ -1,11 +1,10 @@
-﻿using FlatFileGenerator.Extensions;
+﻿using FlatFileGenerator.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace FlatFileGenerator.Models
+namespace FlatFileGenerator.Core.Models
 {
     internal class ColumnGenerator
     {
@@ -45,27 +44,5 @@ namespace FlatFileGenerator.Models
 
             return columnValue;
         }
-    }
-
-    internal enum ColumnType
-    {
-        [Display(Name = "string")]
-        StringType,
-        [Display(Name = "date")]
-        DateType,
-        [Display(Name = "int")]
-        IntergerType,
-        [Display(Name = "decimal")]
-        DecimalType,
-        [Display(Name = "float")]
-        FloatType,
-        [Display(Name = "bool")]
-        BooleanType,
-        [Display(Name = "default")]
-        DefaultType,
-        [Display(Name = "email")]
-        EmailType,
-        [Display(Name = "list")]
-        ListType
     }
 }

@@ -1,9 +1,9 @@
-﻿using FlatFileGenerator.Extensions;
+﻿using FlatFileGenerator.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FlatFileGenerator.Models
+namespace FlatFileGenerator.Core.Models
 {
     internal class RandomGenerator
     {
@@ -38,8 +38,8 @@ namespace FlatFileGenerator.Models
             bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
 
             string randomString = GenerateString(size);
-            var prefix = config.GetValueOrDefault(StringConfig.Prefix);
-            var suffix = config.GetValueOrDefault(StringConfig.Suffix);
+            var prefix = config.GetValueOrDefault(StringConfig.Prefix, string.Empty);
+            var suffix = config.GetValueOrDefault(StringConfig.Suffix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
                 randomString = $"{prefix}{randomString}";
@@ -80,7 +80,7 @@ namespace FlatFileGenerator.Models
 
         public static object RandomDefault(Dictionary<string, string> config)
         {
-            var defaultValue = config.GetValueOrDefault(DefaultConfig.DefaultValue);
+            var defaultValue = config.GetValueOrDefault(DefaultConfig.DefaultValue, string.Empty);
             if (string.IsNullOrEmpty(defaultValue))
             {
                 throw new ArgumentNullException(DefaultConfig.DefaultValue + "should be specified");
