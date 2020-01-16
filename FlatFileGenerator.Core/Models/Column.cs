@@ -32,53 +32,30 @@ namespace FlatFileGenerator.Core.Models
         }
 
         /// <summary>
-        /// Generate column value from column configuration
+        /// Generate column value from current column configuration
         /// </summary>
-        /// <param name="column"></param>
         /// <returns></returns>
         public dynamic GetColumnValue()
         {
-            var columnType = EnumExtensions<ColumnType>.ParseDisplayName(Type);
-            dynamic columnValue = null;
-            switch (columnType)
-            {
-                case ColumnType.StringType:
-                    columnValue = RandomGenerator.RandomString(Config);
-                    break;
-                case ColumnType.DateType:
-                    columnValue = RandomGenerator.RandomDate(Config);
-                    break;
-                case ColumnType.IntergerType:
-                    columnValue = RandomGenerator.RandomInt(Config);
-                    break;
-                case ColumnType.DecimalType:
-                    break;
-                case ColumnType.FloatType:
-                    break;
-                case ColumnType.EmailType:
-                    columnValue = RandomGenerator.RandomEmail(Config);
-                    break;
-                case ColumnType.BooleanType:
-                    columnValue = RandomGenerator.RandomBool(Config);
-                    break;
-                case ColumnType.DefaultType:
-                    columnValue = RandomGenerator.RandomDefault(Config);
-                    break;
-                case ColumnType.ListType:
-                    break;
-                default:
-                    throw new InvalidOperationException($"Column of type {columnType} is not valid");
-            }
-
-            return columnValue;
+            return GetColumnValueFromConfiguration(new Column { Type = Type, Config = Config, Name = Name });
         }
 
         /// <summary>
         /// Generate column value from column configuration
         /// </summary>
-        /// <param name="column"></param>
+        /// <param name="column">Column configuration</param>
         /// <returns></returns>
         public static dynamic GetColumnValue(Column column)
+        {
+            return GetColumnValueFromConfiguration(column);
+        }
+
+        /// <summary>
+        /// Generate column value from configuration
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        private static dynamic GetColumnValueFromConfiguration(Column column)
         {
             var columnType = EnumExtensions<ColumnType>.ParseDisplayName(column.Type);
             dynamic columnValue = null;
