@@ -98,7 +98,7 @@ namespace FlatFileGenerator.Core.Models
                 }
                 foreach (var column in config.Columns)
                 {
-                    fileContent.Append(ColumnGenerator.GetColumnValue(column) + config.Seperator);
+                    fileContent.Append(column.GetColumnValue() + config.Seperator);
                 }
                 fileContent.Remove(fileContent.Length - 1, 1);
                 fileContent.Append("\n");

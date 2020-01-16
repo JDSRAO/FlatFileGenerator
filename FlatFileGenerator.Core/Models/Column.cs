@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using FlatFileGenerator.Core.Extensions;
 
 namespace FlatFileGenerator.Core.Models
 {
@@ -29,8 +30,95 @@ namespace FlatFileGenerator.Core.Models
         {
             Config = new Dictionary<string, string>();
         }
+
+        /// <summary>
+        /// Generate column value from column configuration
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public dynamic GetColumnValue()
+        {
+            var columnType = EnumExtensions<ColumnType>.ParseDisplayName(Type);
+            dynamic columnValue = null;
+            switch (columnType)
+            {
+                case ColumnType.StringType:
+                    columnValue = RandomGenerator.RandomString(Config);
+                    break;
+                case ColumnType.DateType:
+                    columnValue = RandomGenerator.RandomDate(Config);
+                    break;
+                case ColumnType.IntergerType:
+                    columnValue = RandomGenerator.RandomInt(Config);
+                    break;
+                case ColumnType.DecimalType:
+                    break;
+                case ColumnType.FloatType:
+                    break;
+                case ColumnType.EmailType:
+                    columnValue = RandomGenerator.RandomEmail(Config);
+                    break;
+                case ColumnType.BooleanType:
+                    columnValue = RandomGenerator.RandomBool(Config);
+                    break;
+                case ColumnType.DefaultType:
+                    columnValue = RandomGenerator.RandomDefault(Config);
+                    break;
+                case ColumnType.ListType:
+                    break;
+                default:
+                    throw new InvalidOperationException($"Column of type {columnType} is not valid");
+            }
+
+            return columnValue;
+        }
+
+        /// <summary>
+        /// Generate column value from column configuration
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public static dynamic GetColumnValue(Column column)
+        {
+            var columnType = EnumExtensions<ColumnType>.ParseDisplayName(column.Type);
+            dynamic columnValue = null;
+            switch (columnType)
+            {
+                case ColumnType.StringType:
+                    columnValue = RandomGenerator.RandomString(column.Config);
+                    break;
+                case ColumnType.DateType:
+                    columnValue = RandomGenerator.RandomDate(column.Config);
+                    break;
+                case ColumnType.IntergerType:
+                    columnValue = RandomGenerator.RandomInt(column.Config);
+                    break;
+                case ColumnType.DecimalType:
+                    break;
+                case ColumnType.FloatType:
+                    break;
+                case ColumnType.EmailType:
+                    columnValue = RandomGenerator.RandomEmail(column.Config);
+                    break;
+                case ColumnType.BooleanType:
+                    columnValue = RandomGenerator.RandomBool(column.Config);
+                    break;
+                case ColumnType.DefaultType:
+                    columnValue = RandomGenerator.RandomDefault(column.Config);
+                    break;
+                case ColumnType.ListType:
+                    break;
+                default:
+                    throw new InvalidOperationException($"Column of type {columnType} is not valid");
+            }
+
+            return columnValue;
+        }
     }
 
+    /// <summary>
+    /// Column Types Enum
+    /// </summary>
     internal enum ColumnType
     {
         [Display(Name = "string")]
@@ -53,18 +141,9 @@ namespace FlatFileGenerator.Core.Models
         ListType
     }
 
-    //internal class ColumnConfig
-    //{
-    //    public int Length { get; set; }
-    //    public int Min { get; set; }
-    //    public int Max { get; set; }
-    //    public string Format { get; set; }
-    //    public bool LowerCase { get; set; }
-    //    public string Prefix { get; set; }
-    //    public string Suffix { get; set; }
-    //    public string DefaultValue { get; set; }
-    //}
-
+    /// <summary>
+    /// Column Type == string config options
+    /// </summary>
     internal class StringConfig
     {
         public const string Length = "length";
@@ -73,18 +152,27 @@ namespace FlatFileGenerator.Core.Models
         public const string LowerCase = "lowerCase";
     }
 
+    /// <summary>
+    /// Column Type == int config options
+    /// </summary>
     internal class IntConfig
     {
         public const string Min = "min";
         public const string Max = "max";
     }
 
+    /// <summary>
+    /// Column Type == date config options
+    /// </summary>
     internal class DateConfig
     {
         public const string Format = "format";
         public const string DefaultFormat = "yyyyMMddHHmmssffff";
     }
 
+    /// <summary>
+    /// Column Type == default config options
+    /// </summary>
     internal class DefaultConfig
     {
         public const string DefaultValue = "defaultValue";
