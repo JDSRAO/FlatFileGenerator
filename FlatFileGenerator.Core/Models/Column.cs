@@ -71,8 +71,7 @@ namespace FlatFileGenerator.Core.Models
                     columnValue = RandomGenerator.RandomInt(column.Config);
                     break;
                 case ColumnType.DecimalType:
-                    break;
-                case ColumnType.FloatType:
+                    columnValue = RandomGenerator.RandomDecimal(column.Config);
                     break;
                 case ColumnType.EmailType:
                     columnValue = RandomGenerator.RandomEmail(column.Config);
@@ -106,8 +105,6 @@ namespace FlatFileGenerator.Core.Models
         IntergerType,
         [Display(Name = "decimal")]
         DecimalType,
-        [Display(Name = "float")]
-        FloatType,
         [Display(Name = "bool")]
         BooleanType,
         [Display(Name = "default")]
@@ -153,5 +150,14 @@ namespace FlatFileGenerator.Core.Models
     internal class DefaultConfig
     {
         public const string DefaultValue = "defaultValue";
+    }
+
+    /// <summary>
+    /// Column Type == decimal config options 
+    /// </summary>
+    internal class DecimalConfig : IntConfig
+    {
+        public const string DecimalPart = "decimalPart";
+        public const int DefaultDecimalPart = 2;
     }
 }

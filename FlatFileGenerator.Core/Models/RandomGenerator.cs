@@ -1,6 +1,7 @@
 ﻿using FlatFileGenerator.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace FlatFileGenerator.Core.Models
@@ -8,6 +9,9 @@ namespace FlatFileGenerator.Core.Models
     internal class RandomGenerator
     {
         private static Random random { get; } = new Random();
+        
+        // Gets a NumberFormatInfo associated with the en-US culture.
+        private static NumberFormatInfo nfi { get; set; } = CultureInfo.InvariantCulture.NumberFormat;
 
         //public static dynamic Value<T>(Dictionary<string, string> config)
         //{
@@ -92,6 +96,15 @@ namespace FlatFileGenerator.Core.Models
         public static string RandomEmail(Dictionary<string, string> config)
         {
             return $"{GenerateString(5)}@{GenerateString(5)}.{GenerateString(3)}".ToLower();
+        }
+
+        public static string RandomDecimal(Dictionary<string,string> config)
+        {
+            string format = "{0:F" + config.GetValueOrExpected<int>(DecimalConfig.DecimalPart, DecimalConfig.DefaultDecimalPart) + "}";
+            int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
+            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
+            var value = random.NextDouble() * (max - min) + min;
+            return String.Format(format, value);
         }
 
         private static string GenerateString(int size)
