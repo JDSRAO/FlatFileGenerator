@@ -1,4 +1,5 @@
-﻿using FlatFileGenerator.Models;
+﻿using FlatFileGenerator.Core.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -14,18 +15,9 @@ namespace FlatFileGenerator
             Console.WriteLine("-- Reading configuration --");
             try
             {
-                var config = Configuration.GetCurrentConfiguration().Result;
-                var flatFileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmssffff")}_{config.FileName}";
-                var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
-                var flatFilePath = Path.Combine(baseFilePath, flatFileName);
-                if (!Directory.Exists(baseFilePath))
-                {
-                    Directory.CreateDirectory(baseFilePath);
-                }
-
                 Console.WriteLine("-- Generating flat file --");
-                GenerateFlatFile(config, flatFilePath);
-                Console.WriteLine($"-- Flat file with name {flatFileName} generated--");
+                var flatFileName = Configuration.WriteFlatFileToDisk(GetCurrentConfiguration());
+                Console.WriteLine($"-- Flat file is generated at {flatFileName} --");
             }
             catch (Exception ex)
             {
@@ -36,32 +28,16 @@ namespace FlatFileGenerator
             Console.ReadLine();
         }
 
-        private static void GenerateFlatFile(Configuration config, string flatFilePath)
+        static Configuration GetCurrentConfiguration()
         {
-            var fileContent = new StringBuilder();
-            if(config.ShowRowNumber)
+            var fileName = "config.json";
+            var fileNameWithPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+            if (!File.Exists(fileNameWithPath))
             {
-                fileContent.Append("rowNumber,");
+                throw new FileNotFoundException("Configuration file not found", fileName);
             }
-            fileContent.Append(string.Join(',', config.Columns.Select(x => x.Name).ToArray()) + "\n");
-            for (int i = 1; i <= config.Rows; i++)
-            {
-                if(config.ShowRowNumber)
-                {
-                    fileContent.Append(i + ",");
-                }
-                foreach (var column in config.Columns)
-                {
-                    fileContent.Append(ColumnGenerator.GetColumnValue(column) + ",");
-                }
-                fileContent.Remove(fileContent.Length - 1, 1);
-                fileContent.Append("\n");
-            }
-
-            var flatFileContent = fileContent.ToString().Trim();
-
-            
-            File.WriteAllText(flatFilePath, flatFileContent);
+            var configJson = File.ReadAllText(fileNameWithPath);
+            return JsonConvert.DeserializeObject<Configuration>(configJson);
         }
     }
 }

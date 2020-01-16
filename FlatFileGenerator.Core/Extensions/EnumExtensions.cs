@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace FlatFileGenerator.Extensions
+namespace FlatFileGenerator.Core.Extensions
 {
     public static class EnumExtensions<T> where T : struct, IConvertible
     {
