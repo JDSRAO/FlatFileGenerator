@@ -39,7 +39,10 @@
     },
     {
       "name": "Amount",
-      "type": "float"
+      "type": "decimal",
+      "config": {
+        "decimalPart": 4
+      }
     },
     {
       "name": "IsValid",

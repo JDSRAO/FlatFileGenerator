@@ -22,6 +22,7 @@ namespace FlatFileGenerator
             catch (Exception ex)
             {
                 Console.WriteLine("-- Error occurred while generating flat file --");
+                Console.WriteLine(ex.Message);
             }
 
             Console.WriteLine("Completed. Please press enter to exit");
