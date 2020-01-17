@@ -24,7 +24,7 @@ The easiest way to use these samples without using Git is to download the zip fi
 
 ## Usage
 - Download the latest release from [here](https://github.com/JDSRAO/FlatFileGenerator/releases). Edit the config.json file and run the .bat file.
-- Alternativley the latest nuget package can be found [here](https://www.nuget.org/packages/FlatFileGenerator.Core/)
+- Alternatively the latest nuget package can be found [here](https://www.nuget.org/packages/FlatFileGenerator.Core/)
 - Please refer [wiki](https://github.com/JDSRAO/FlatFileGenerator/wiki) page for more information.
 
 ## License
