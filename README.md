@@ -23,9 +23,9 @@ After cloning the respository:
 The easiest way to use these samples without using Git is to download the zip file containing the current version. You can then unzip the entire archive and use the solution in Visual Studio 2017.
 
 ## Usage
-- Download the latest release from [here](https://github.com/JDSRAO/FlatFileGenerator/releases). Edit the config.json file and run the .bat file.
-- Alternatively the latest nuget package can be found [here](https://www.nuget.org/packages/FlatFileGenerator.Core/)
-- Please refer [wiki](https://github.com/JDSRAO/FlatFileGenerator/wiki) page for more information.
+- Download the latest release from [here](https://github.com/JDSRAO/FlatFileGenerator/releases). Edit the config.json file and run the application.bat file.
+- Alternatively download the latest [nuget package](https://www.nuget.org/packages/FlatFileGenerator.Core/), install and start development.
+- Please refer [wiki](https://github.com/JDSRAO/FlatFileGenerator/wiki) page for documentation.
 
 ## License
 Please refer [here](LICENSE) for license information
