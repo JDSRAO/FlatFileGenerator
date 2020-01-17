@@ -18,7 +18,7 @@ To use the samples with Git, clone the project repository with `git clone https:
 
 After cloning the respository:
 * To build the samples, open `FlatFileGenerator.sln` solution file in Visual Studio 2017 and build the solution.
-* Alternatively, open the project directory in command prompt and type ``` cd src/FlatFileGenerator ``` and build with 'dotnet build' or 'msbuild' specifying the target project file.
+* Alternatively, open the project directory in command prompt and type ``` cd FlatFileGenerator ``` and build with 'dotnet build' or 'msbuild' specifying the target project file.
 
 The easiest way to use these samples without using Git is to download the zip file containing the current version. You can then unzip the entire archive and use the solution in Visual Studio 2017.
 
