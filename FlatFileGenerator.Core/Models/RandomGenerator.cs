@@ -61,7 +61,7 @@ namespace FlatFileGenerator.Core.Models
         public static int RandomInt(Dictionary<string, string> config)
         {
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
-            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
+            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1001);
             if(min > max)
             {
                 max = min + 1000;
@@ -105,6 +105,12 @@ namespace FlatFileGenerator.Core.Models
             int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
             var value = random.NextDouble() * (max - min) + min;
             return String.Format(format, value);
+        }
+
+        public static object RandomValueFromList(Dictionary<string, string> config)
+        {
+            var index = random.Next(1, config.Count + 1);
+            return config[index.ToString()];
         }
 
         private static string GenerateString(int size)
