@@ -83,6 +83,7 @@ namespace FlatFileGenerator.Core.Models
                     columnValue = RandomGenerator.RandomDefault(column.Config);
                     break;
                 case ColumnType.ListType:
+                    columnValue = RandomGenerator.RandomValueFromList(column.Config);
                     break;
                 default:
                     throw new InvalidOperationException($"Column of type {columnType} is not valid");
