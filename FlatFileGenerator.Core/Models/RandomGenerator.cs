@@ -118,8 +118,23 @@ namespace FlatFileGenerator.Core.Models
             }
             else
             {
-                var items = (JArray)config[ListConfig.Items];
-                var index = random.Next(0, items.Count - 1);
+                dynamic items;
+                int itemsCount = 0;
+                if(config[ListConfig.Items] is object[])
+                {
+                    items = (object[])config[ListConfig.Items];
+                    itemsCount = items.Length;
+                }
+                else if(config[ListConfig.Items] is JArray)
+                {
+                    items = (JArray)config[ListConfig.Items];
+                    itemsCount = items.Count;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unidentified data type");
+                }
+                var index = random.Next(0, itemsCount);
                 return items[index];
             }   
         }
