@@ -161,4 +161,9 @@ namespace FlatFileGenerator.Core.Models
         public const string DecimalPart = "decimalPart";
         public const int DefaultDecimalPart = 2;
     }
+
+    internal class ListConfig
+    {
+        public const string Items = "items";
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using FlatFileGenerator.Core.Extensions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -111,8 +112,16 @@ namespace FlatFileGenerator.Core.Models
 
         public static object RandomValueFromList(Dictionary<string, object> config)
         {
-            var index = random.Next(1, config.Count + 1);
-            return config[index.ToString()];
+            if(config.Count == 0 || !config.ContainsKey(ListConfig.Items))
+            {
+                throw new ArgumentNullException(ListConfig.Items);
+            }
+            else
+            {
+                var items = (JArray)config[ListConfig.Items];
+                var index = random.Next(0, items.Count - 1);
+                return items[index];
+            }   
         }
 
         private static string GenerateString(int size)
