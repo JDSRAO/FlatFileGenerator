@@ -36,14 +36,14 @@ namespace FlatFileGenerator.Core.Models
         //    return value;
         //}
 
-        public static string RandomString(Dictionary<string, string> config)
+        public static string RandomString(Dictionary<string, object> config)
         {
             int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
             bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
 
             string randomString = GenerateString(size);
-            var prefix = config.GetValueOrDefault(StringConfig.Prefix, string.Empty);
-            var suffix = config.GetValueOrDefault(StringConfig.Suffix, string.Empty);
+            var prefix = config.GetValueOrExpected<string>(StringConfig.Prefix, string.Empty);
+            var suffix = config.GetValueOrExpected<string>(StringConfig.Suffix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
                 randomString = $"{prefix}{randomString}";
@@ -58,7 +58,7 @@ namespace FlatFileGenerator.Core.Models
             return randomString;
         }
 
-        public static int RandomInt(Dictionary<string, string> config)
+        public static int RandomInt(Dictionary<string, object> config)
         {
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
             int max = config.GetValueOrExpected<int>(IntConfig.Min, 1001);
@@ -69,36 +69,38 @@ namespace FlatFileGenerator.Core.Models
             return random.Next(min, max);
         }
 
-        public static string RandomDate(Dictionary<string, string> config)
+        public static string RandomDate(Dictionary<string, object> config)
         {
             string format = config.GetValueOrExpected<string>(DateConfig.Format, DateConfig.DefaultFormat);
             return DateTime.UtcNow.ToString(format);
         }
 
-        public static bool RandomBool(Dictionary<string, string> config)
+        public static bool RandomBool(Dictionary<string, object> config)
         {
             var defaultBoolean = new bool[] { true, false };
             var index = random.Next(0, 2);
             return defaultBoolean[index];
         }
 
-        public static object RandomDefault(Dictionary<string, string> config)
+        public static object RandomDefault(Dictionary<string, object> config)
         {
-            var defaultValue = config.GetValueOrDefault(DefaultConfig.DefaultValue, string.Empty);
-            if (string.IsNullOrEmpty(defaultValue))
+            var containsDefaultValue = config.ContainsKey(DefaultConfig.DefaultValue);
+            if(containsDefaultValue)
             {
-                throw new ArgumentNullException(DefaultConfig.DefaultValue + "should be specified");
+                return config[DefaultConfig.DefaultValue];
             }
-
-            return defaultValue;
+            else
+            {
+                throw new ArgumentNullException(DefaultConfig.DefaultValue);
+            }
         }
 
-        public static string RandomEmail(Dictionary<string, string> config)
+        public static string RandomEmail(Dictionary<string, object> config)
         {
             return $"{GenerateString(5)}@{GenerateString(5)}.{GenerateString(3)}".ToLower();
         }
 
-        public static string RandomDecimal(Dictionary<string,string> config)
+        public static string RandomDecimal(Dictionary<string, object> config)
         {
             string format = "{0:F" + config.GetValueOrExpected<int>(DecimalConfig.DecimalPart, DecimalConfig.DefaultDecimalPart) + "}";
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
@@ -107,7 +109,7 @@ namespace FlatFileGenerator.Core.Models
             return String.Format(format, value);
         }
 
-        public static object RandomValueFromList(Dictionary<string, string> config)
+        public static object RandomValueFromList(Dictionary<string, object> config)
         {
             var index = random.Next(1, config.Count + 1);
             return config[index.ToString()];

@@ -24,11 +24,11 @@ namespace FlatFileGenerator.Core.Models
         /// <summary>
         /// Column configuration
         /// </summary>
-        public Dictionary<string, string> Config { get; set; }
+        public Dictionary<string, object> Config { get; set; }
 
         public Column()
         {
-            Config = new Dictionary<string, string>();
+            Config = new Dictionary<string, object>();
         }
 
         /// <summary>

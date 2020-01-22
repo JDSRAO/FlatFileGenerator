@@ -6,12 +6,12 @@ namespace FlatFileGenerator.Core.Extensions
 {
     public static class DictionaryExtensions
     {
-        public static T GetValueOrExpected<T>(this Dictionary<string, string> dict, string key, object expectedValue)
+        public static T GetValueOrExpected<T>(this Dictionary<string, object> dict, string key, object expectedValue)
         {
             T value;
-            string dictValue;
+            object dictValue;
             dict.TryGetValue(key, out dictValue);
-            if(string.IsNullOrEmpty(dictValue))
+            if(dictValue == null)
             {
                 value = (T)expectedValue;
             }
