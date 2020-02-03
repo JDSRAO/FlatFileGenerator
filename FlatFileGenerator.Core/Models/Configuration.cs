@@ -80,10 +80,19 @@ namespace FlatFileGenerator.Core.Models
 
         private static string GenerateFlatFileContent(Configuration config)
         {
-            if(string.IsNullOrEmpty(config.Seperator))
+            if(string.IsNullOrEmpty(config.Seperator) && config.FileName.EndsWith(".csv"))
             {
                 config.Seperator = ",";
             }
+            else if (string.IsNullOrEmpty(config.Seperator) && config.FileName.EndsWith(".tsv"))
+            {
+                config.Seperator = "    ";
+            }
+            else if(string.IsNullOrEmpty(config.Seperator))
+            {
+                throw new ArgumentNullException("Seperator", "Seperator is either missing or empty");
+            }
+
             var fileContent = new StringBuilder();
             if (config.ShowRowNumber)
             {
@@ -98,7 +107,19 @@ namespace FlatFileGenerator.Core.Models
                 }
                 foreach (var column in config.Columns)
                 {
-                    fileContent.Append(column.GetColumnValue() + config.Seperator);
+                    if (config.FileName.EndsWith(".csv"))
+                    {
+                        dynamic value = column.GetColumnValue();
+                        if (value is string && ((string)value).Contains(","))
+                        {
+                            value = "\"" + value + "\"";
+                        }
+                        fileContent.Append(value + config.Seperator);
+                    }
+                    else
+                    {
+                        fileContent.Append(column.GetColumnValue() + config.Seperator);
+                    }
                 }
                 fileContent.Remove(fileContent.Length - 1, 1);
                 fileContent.Append("\n");
