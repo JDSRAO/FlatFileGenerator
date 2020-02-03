@@ -80,10 +80,19 @@ namespace FlatFileGenerator.Core.Models
 
         private static string GenerateFlatFileContent(Configuration config)
         {
-            if(string.IsNullOrEmpty(config.Seperator))
+            if(string.IsNullOrEmpty(config.Seperator) && config.FileName.EndsWith(".csv"))
             {
                 config.Seperator = ",";
             }
+            else if (string.IsNullOrEmpty(config.Seperator) && config.FileName.EndsWith(".tsv"))
+            {
+                config.Seperator = "    ";
+            }
+            else if(string.IsNullOrEmpty(config.Seperator))
+            {
+                throw new ArgumentNullException("Seperator", "Seperator is either missing or empty");
+            }
+
             var fileContent = new StringBuilder();
             if (config.ShowRowNumber)
             {
