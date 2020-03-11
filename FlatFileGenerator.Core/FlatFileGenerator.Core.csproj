@@ -6,9 +6,14 @@
     <PackageLicenseUrl>https://github.com/JDSRAO/FlatFileGenerator/blob/master/LICENSE</PackageLicenseUrl>
     <Authors>KJDS Srinivasa Rao</Authors>
     <Product>KJDS.FlatFileGenerator.Core</Product>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.3.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/JDSRAO/FlatFileGenerator</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>flatfile</PackageTags>
+    <Description>Flat file generator with configurable options</Description>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>

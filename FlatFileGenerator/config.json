@@ -5,6 +5,10 @@
   "rows": 1000,
   "columns": [
     {
+      "name": "Row id",
+      "type": "guid"
+    },
+    {
       "name": "Created On",
       "type": "date",
       "config": {
@@ -27,7 +31,10 @@
     },
     {
       "name": "Last Name",
-      "type": "string"
+      "type": "string",
+      "config": {
+        "length": "2|5"
+      }
     },
     {
       "name": "SortCode",
@@ -47,6 +54,13 @@
     {
       "name": "IsValid",
       "type": "bool"
+    },
+    {
+      "name": "CustomValues",
+      "type": "list",
+      "config": {
+        "items": [ "kjds", 1, "bool", "any" ]
+      }
     }
   ]
 }

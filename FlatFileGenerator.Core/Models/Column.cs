@@ -24,11 +24,11 @@ namespace FlatFileGenerator.Core.Models
         /// <summary>
         /// Column configuration
         /// </summary>
-        public Dictionary<string, string> Config { get; set; }
+        public Dictionary<string, object> Config { get; set; }
 
         public Column()
         {
-            Config = new Dictionary<string, string>();
+            Config = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -83,6 +83,10 @@ namespace FlatFileGenerator.Core.Models
                     columnValue = RandomGenerator.RandomDefault(column.Config);
                     break;
                 case ColumnType.ListType:
+                    columnValue = RandomGenerator.RandomValueFromList(column.Config);
+                    break;
+                case ColumnType.GuidType:
+                    columnValue = RandomGenerator.RandomGuid();
                     break;
                 default:
                     throw new InvalidOperationException($"Column of type {columnType} is not valid");
@@ -112,7 +116,9 @@ namespace FlatFileGenerator.Core.Models
         [Display(Name = "email")]
         EmailType,
         [Display(Name = "list")]
-        ListType
+        ListType,
+        [Display(Name = "guid")]
+        GuidType
     }
 
     /// <summary>
@@ -159,5 +165,10 @@ namespace FlatFileGenerator.Core.Models
     {
         public const string DecimalPart = "decimalPart";
         public const int DefaultDecimalPart = 2;
+    }
+
+    internal class ListConfig
+    {
+        public const string Items = "items";
     }
 }

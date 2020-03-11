@@ -1,4 +1,5 @@
 ﻿using FlatFileGenerator.Core.Extensions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -36,14 +37,36 @@ namespace FlatFileGenerator.Core.Models
         //    return value;
         //}
 
-        public static string RandomString(Dictionary<string, string> config)
+        public static string RandomString(Dictionary<string, object> config)
         {
-            int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
-            bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
+            string lenghtConfig = config.GetValueOrExpected<string>(StringConfig.Length, null);
+            var generatedString = new StringBuilder();
+            if(string.IsNullOrEmpty(lenghtConfig) || string.IsNullOrWhiteSpace(lenghtConfig))
+            {
+                int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
+                generatedString.Append(GenerateString(size));
+            }
+            else
+            {
+                var wordLengths = lenghtConfig.Split('|');
+                int size = 5;
+                foreach (var wordLength in wordLengths)
+                {
+                    size = Convert.ToInt32(wordLength);
+                    generatedString.Append(GenerateString(size) + " ");
+                }
+            }
 
-            string randomString = GenerateString(size);
-            var prefix = config.GetValueOrDefault(StringConfig.Prefix, string.Empty);
-            var suffix = config.GetValueOrDefault(StringConfig.Suffix, string.Empty);
+            string randomString = generatedString.ToString().Trim();
+
+            bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.LowerCase, true);
+            if (lowerCase)
+            {
+                randomString = randomString.ToLower();
+            }
+
+            var prefix = config.GetValueOrExpected<string>(StringConfig.Prefix, string.Empty);
+            var suffix = config.GetValueOrExpected<string>(StringConfig.Suffix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
                 randomString = $"{prefix}{randomString}";
@@ -53,15 +76,13 @@ namespace FlatFileGenerator.Core.Models
                 randomString = $"{randomString}{suffix}";
             }
 
-            if (lowerCase)
-                return randomString.ToLower();
             return randomString;
         }
 
-        public static int RandomInt(Dictionary<string, string> config)
+        public static int RandomInt(Dictionary<string, object> config)
         {
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
-            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
+            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1001);
             if(min > max)
             {
                 max = min + 1000;
@@ -69,42 +90,78 @@ namespace FlatFileGenerator.Core.Models
             return random.Next(min, max);
         }
 
-        public static string RandomDate(Dictionary<string, string> config)
+        public static string RandomDate(Dictionary<string, object> config)
         {
             string format = config.GetValueOrExpected<string>(DateConfig.Format, DateConfig.DefaultFormat);
             return DateTime.UtcNow.ToString(format);
         }
 
-        public static bool RandomBool(Dictionary<string, string> config)
+        public static bool RandomBool(Dictionary<string, object> config)
         {
             var defaultBoolean = new bool[] { true, false };
             var index = random.Next(0, 2);
             return defaultBoolean[index];
         }
 
-        public static object RandomDefault(Dictionary<string, string> config)
+        public static object RandomDefault(Dictionary<string, object> config)
         {
-            var defaultValue = config.GetValueOrDefault(DefaultConfig.DefaultValue, string.Empty);
-            if (string.IsNullOrEmpty(defaultValue))
+            var containsDefaultValue = config.ContainsKey(DefaultConfig.DefaultValue);
+            if(containsDefaultValue)
             {
-                throw new ArgumentNullException(DefaultConfig.DefaultValue + "should be specified");
+                return config[DefaultConfig.DefaultValue];
             }
-
-            return defaultValue;
+            else
+            {
+                throw new ArgumentNullException(DefaultConfig.DefaultValue);
+            }
         }
 
-        public static string RandomEmail(Dictionary<string, string> config)
+        public static string RandomEmail(Dictionary<string, object> config)
         {
             return $"{GenerateString(5)}@{GenerateString(5)}.{GenerateString(3)}".ToLower();
         }
 
-        public static string RandomDecimal(Dictionary<string,string> config)
+        public static string RandomDecimal(Dictionary<string, object> config)
         {
             string format = "{0:F" + config.GetValueOrExpected<int>(DecimalConfig.DecimalPart, DecimalConfig.DefaultDecimalPart) + "}";
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
             int max = config.GetValueOrExpected<int>(IntConfig.Min, 1000);
             var value = random.NextDouble() * (max - min) + min;
             return String.Format(format, value);
+        }
+
+        public static object RandomValueFromList(Dictionary<string, object> config)
+        {
+            if(config.Count == 0 || !config.ContainsKey(ListConfig.Items))
+            {
+                throw new ArgumentNullException(ListConfig.Items);
+            }
+            else
+            {
+                dynamic items;
+                int itemsCount = 0;
+                if(config[ListConfig.Items] is object[])
+                {
+                    items = (object[])config[ListConfig.Items];
+                    itemsCount = items.Length;
+                }
+                else if(config[ListConfig.Items] is JArray)
+                {
+                    items = (JArray)config[ListConfig.Items];
+                    itemsCount = items.Count;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unidentified data type");
+                }
+                var index = random.Next(0, itemsCount);
+                return items[index];
+            }   
+        }
+
+        public static string RandomGuid()
+        {
+            return Guid.NewGuid().ToString();
         }
 
         private static string GenerateString(int size)

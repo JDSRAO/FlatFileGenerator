@@ -3,10 +3,19 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Authors>KJDS Srinivasa Rao</Authors>
+    <Product>KJDS.FlatFileGenerator</Product>
+    <Description>Flat file generator executable with configuration .json file</Description>
+    <Version>1.0.3.1</Version>
+    <PackageLicenseUrl>https://github.com/JDSRAO/FlatFileGenerator/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/JDSRAO/FlatFileGenerator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JDSRAO/FlatFileGenerator</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>flatfile</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FlatFileGenerator.Core" Version="1.0.0.1" />
+    <PackageReference Include="FlatFileGenerator.Core" Version="1.0.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
