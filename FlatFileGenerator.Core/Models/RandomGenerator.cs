@@ -139,6 +139,11 @@ namespace FlatFileGenerator.Core.Models
             }   
         }
 
+        public static string RandomGuid()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
         private static string GenerateString(int size)
         {
             var builder = new StringBuilder();

@@ -85,6 +85,9 @@ namespace FlatFileGenerator.Core.Models
                 case ColumnType.ListType:
                     columnValue = RandomGenerator.RandomValueFromList(column.Config);
                     break;
+                case ColumnType.GuidType:
+                    columnValue = RandomGenerator.RandomGuid();
+                    break;
                 default:
                     throw new InvalidOperationException($"Column of type {columnType} is not valid");
             }
@@ -113,7 +116,9 @@ namespace FlatFileGenerator.Core.Models
         [Display(Name = "email")]
         EmailType,
         [Display(Name = "list")]
-        ListType
+        ListType,
+        [Display(Name = "guid")]
+        GuidType
     }
 
     /// <summary>
