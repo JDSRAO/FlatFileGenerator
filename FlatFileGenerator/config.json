@@ -5,6 +5,10 @@
   "rows": 1000,
   "columns": [
     {
+      "name": "Row id",
+      "type": "guid"
+    },
+    {
       "name": "Created On",
       "type": "date",
       "config": {
@@ -52,7 +56,7 @@
       "name": "CustomValues",
       "type": "list",
       "config": {
-        "items": [ "kjds", 1, "bool", "any"]
+        "items": [ "kjds", 1, "bool", "any" ]
       }
     }
   ]
