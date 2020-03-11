@@ -39,10 +39,32 @@ namespace FlatFileGenerator.Core.Models
 
         public static string RandomString(Dictionary<string, object> config)
         {
-            int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
-            bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.Length, true);
+            string lenghtConfig = config.GetValueOrExpected<string>(StringConfig.Length, null);
+            var generatedString = new StringBuilder();
+            if(string.IsNullOrEmpty(lenghtConfig) || string.IsNullOrWhiteSpace(lenghtConfig))
+            {
+                int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
+                generatedString.Append(GenerateString(size));
+            }
+            else
+            {
+                var wordLengths = lenghtConfig.Split('|');
+                int size = 5;
+                foreach (var wordLength in wordLengths)
+                {
+                    size = Convert.ToInt32(wordLength);
+                    generatedString.Append(GenerateString(size) + " ");
+                }
+            }
 
-            string randomString = GenerateString(size);
+            string randomString = generatedString.ToString().Trim();
+
+            bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.LowerCase, true);
+            if (lowerCase)
+            {
+                randomString = randomString.ToLower();
+            }
+
             var prefix = config.GetValueOrExpected<string>(StringConfig.Prefix, string.Empty);
             var suffix = config.GetValueOrExpected<string>(StringConfig.Suffix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
@@ -54,8 +76,6 @@ namespace FlatFileGenerator.Core.Models
                 randomString = $"{randomString}{suffix}";
             }
 
-            if (lowerCase)
-                return randomString.ToLower();
             return randomString;
         }
 
@@ -137,6 +157,11 @@ namespace FlatFileGenerator.Core.Models
                 var index = random.Next(0, itemsCount);
                 return items[index];
             }   
+        }
+
+        public static string RandomGuid()
+        {
+            return Guid.NewGuid().ToString();
         }
 
         private static string GenerateString(int size)
