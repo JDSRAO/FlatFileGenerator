@@ -31,7 +31,10 @@
     },
     {
       "name": "Last Name",
-      "type": "string"
+      "type": "string",
+      "config": {
+        "length": "2|5"
+      }
     },
     {
       "name": "SortCode",
