@@ -79,7 +79,7 @@ namespace FlatFileGenerator.Core.Models
             return randomString;
         }
 
-        public static int RandomInt(Dictionary<string, object> config)
+        public static string RandomInt(Dictionary<string, object> config)
         {
             int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
             int max = config.GetValueOrExpected<int>(IntConfig.Min, 1001);
@@ -87,7 +87,20 @@ namespace FlatFileGenerator.Core.Models
             {
                 max = min + 1000;
             }
-            return random.Next(min, max);
+            var value = random.Next(min, max);
+            var prefix = config.GetValueOrExpected<string>(IntConfig.Prefix, string.Empty);
+            var suffix = config.GetValueOrExpected<string>(IntConfig.Suffix, string.Empty);
+            var number = $"{value}";
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                number = $"{prefix}{value}";
+            }
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                number = $"{number}{suffix}";
+            }
+
+            return number;
         }
 
         public static string RandomDate(Dictionary<string, object> config)

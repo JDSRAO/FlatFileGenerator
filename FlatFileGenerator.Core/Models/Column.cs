@@ -139,6 +139,8 @@ namespace FlatFileGenerator.Core.Models
     {
         public const string Min = "min";
         public const string Max = "max";
+        public const string Prefix = "prefix";
+        public const string Suffix = "suffix";
     }
 
     /// <summary>

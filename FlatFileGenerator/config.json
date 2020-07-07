@@ -38,7 +38,11 @@
     },
     {
       "name": "SortCode",
-      "type": "int"
+      "type": "int",
+      "config": {
+        "prefix": "TEST-",
+        "suffix": "SERIES"
+      }
     },
     {
       "name": "Email",
