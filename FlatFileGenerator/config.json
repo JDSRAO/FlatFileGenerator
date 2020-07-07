@@ -38,7 +38,21 @@
     },
     {
       "name": "SortCode",
-      "type": "int"
+      "type": "int",
+      "config": {
+        "prefix": "TEST-",
+        "suffix": "SERIES"
+      }
+    },
+    {
+      "name": "Account Number",
+      "type": "int",
+      "config": {
+        "prefix": "SAS-",
+        "increment": true,
+        "min": 1000,
+        "interval": 10
+      }
     },
     {
       "name": "Email",

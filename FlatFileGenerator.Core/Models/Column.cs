@@ -68,7 +68,7 @@ namespace FlatFileGenerator.Core.Models
                     columnValue = RandomGenerator.RandomDate(column.Config);
                     break;
                 case ColumnType.IntergerType:
-                    columnValue = RandomGenerator.RandomInt(column.Config);
+                    columnValue = RandomGenerator.RandomInt(ref column);
                     break;
                 case ColumnType.DecimalType:
                     columnValue = RandomGenerator.RandomDecimal(column.Config);
@@ -139,6 +139,10 @@ namespace FlatFileGenerator.Core.Models
     {
         public const string Min = "min";
         public const string Max = "max";
+        public const string Prefix = "prefix";
+        public const string Suffix = "suffix";
+        public const string Increment = "increment";
+        public const string Interval = "interval";
     }
 
     /// <summary>

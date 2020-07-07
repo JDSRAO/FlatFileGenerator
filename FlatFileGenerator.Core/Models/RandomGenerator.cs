@@ -79,15 +79,41 @@ namespace FlatFileGenerator.Core.Models
             return randomString;
         }
 
-        public static int RandomInt(Dictionary<string, object> config)
+        public static string RandomInt(ref Column column)
         {
-            int min = config.GetValueOrExpected<int>(IntConfig.Min, 1);
-            int max = config.GetValueOrExpected<int>(IntConfig.Min, 1001);
-            if(min > max)
+            int min = column.Config.GetValueOrExpected<int>(IntConfig.Min, 1);
+            bool increment = column.Config.GetValueOrExpected<bool>(IntConfig.Increment, false);
+            int value = 0;
+            if(increment)
             {
-                max = min + 1000;
+                var interval = column.Config.GetValueOrExpected<int>(IntConfig.Interval, 1);
+                value = min;
+                min = min + interval;
+                column.Config[IntConfig.Min] = min;
             }
-            return random.Next(min, max);
+            else
+            {
+                int max = column.Config.GetValueOrExpected<int>(IntConfig.Max, 1001);
+                if(min > max)
+                {
+                    max = min + 1000;
+                }
+                value = random.Next(min, max);
+            }
+            
+            var prefix = column.Config.GetValueOrExpected<string>(IntConfig.Prefix, string.Empty);
+            var suffix = column.Config.GetValueOrExpected<string>(IntConfig.Suffix, string.Empty);
+            var number = $"{value}";
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                number = $"{prefix}{value}";
+            }
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                number = $"{number}{suffix}";
+            }
+
+            return number;
         }
 
         public static string RandomDate(Dictionary<string, object> config)
