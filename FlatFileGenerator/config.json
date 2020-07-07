@@ -2,7 +2,7 @@
   "fileName": "test.csv",
   "showRowNumber": true,
   "seperator": ",",
-  "rows": 1000,
+  "rows": 1,
   "columns": [
     {
       "name": "Row id",
@@ -26,14 +26,16 @@
       "name": "First Name",
       "type": "string",
       "config": {
-        "prefix": "KJDS"
+        "prefix": "KJDS",
+        "case": "title"
       }
     },
     {
       "name": "Last Name",
       "type": "string",
       "config": {
-        "length": "2|5"
+        "length": "2|5",
+        "case": "sentence"
       }
     },
     {

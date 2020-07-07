@@ -129,7 +129,30 @@ namespace FlatFileGenerator.Core.Models
         public const string Length = "length";
         public const string Prefix = "prefix";
         public const string Suffix = "suffix";
-        public const string LowerCase = "lowerCase";
+        public const string Case = "case";
+    }
+
+    /// <summary>
+    /// String case types
+    /// </summary>
+    internal enum StringCase
+    {
+        [Display(Name = " ")]
+        Upper,
+        [Display(Name = " ")]
+        Lower,
+        [Display(Name = " ")]
+        Title,
+        [Display(Name = " ")]
+        Sentence,
+        [Display(Name = "")]
+        Camel,
+        [Display(Name = "")]
+        Pascal,
+        [Display(Name = "_")]
+        Snake,
+        [Display(Name = "-")]
+        Kebab
     }
 
     /// <summary>
