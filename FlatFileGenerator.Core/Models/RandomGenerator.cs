@@ -40,30 +40,44 @@ namespace FlatFileGenerator.Core.Models
         public static string RandomString(Dictionary<string, object> config)
         {
             string lenghtConfig = config.GetValueOrExpected<string>(StringConfig.Length, null);
+            string textCaseConfig = config.GetValueOrExpected<string>(StringConfig.Case, null);
+
+            StringCase textCase;
+            if(string.IsNullOrEmpty(textCaseConfig))
+            {
+                textCase = StringCase.Sentence;
+            }
+            else
+            {
+                textCase = EnumExtensions<StringCase>.Parse(textCaseConfig);
+            }
+
+            var textSeperator = EnumExtensions<StringCase>.GetDisplayValue(textCase);
+
             var generatedString = new StringBuilder();
+            var textInfo = CultureInfo.CurrentCulture.TextInfo;
             if(string.IsNullOrEmpty(lenghtConfig) || string.IsNullOrWhiteSpace(lenghtConfig))
             {
                 int size = config.GetValueOrExpected<int>(StringConfig.Length, 5);
-                generatedString.Append(GenerateString(size));
+                var text = GenerateString(size);
+                var formattedText = StringCaseFormatter(textCase, text, textInfo, true);
+                generatedString.Append(formattedText);
             }
             else
             {
                 var wordLengths = lenghtConfig.Split('|');
                 int size = 5;
-                foreach (var wordLength in wordLengths)
+                for (int i = 0; i < wordLengths.Length; i++)
                 {
-                    size = Convert.ToInt32(wordLength);
-                    generatedString.Append(GenerateString(size) + " ");
+                    size = Convert.ToInt32(wordLengths[i]);
+                    var text = GenerateString(size);
+                    var formattedText = StringCaseFormatter(textCase, text, textInfo, i == 0);
+                    generatedString.Append(formattedText + textSeperator);
                 }
+                generatedString.Remove(generatedString.Length - 1, 1);
             }
 
             string randomString = generatedString.ToString().Trim();
-
-            bool lowerCase = config.GetValueOrExpected<bool>(StringConfig.LowerCase, true);
-            if (lowerCase)
-            {
-                randomString = randomString.ToLower();
-            }
 
             var prefix = config.GetValueOrExpected<string>(StringConfig.Prefix, string.Empty);
             var suffix = config.GetValueOrExpected<string>(StringConfig.Suffix, string.Empty);
@@ -170,12 +184,46 @@ namespace FlatFileGenerator.Core.Models
             char ch;
             for (int i = 0; i < size; i++)
             {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 97)));
                 builder.Append(ch);
             }
 
             var randomString = builder.ToString();
             return randomString;
+        }
+
+        private static string StringCaseFormatter(StringCase stringCase, string value, TextInfo textInfo, bool isFirst)
+        {
+            var formattedText = value;
+            switch (stringCase)
+            {
+                case StringCase.Upper:
+                    formattedText = textInfo.ToUpper(value);
+                    break;
+                case StringCase.Lower:
+                    formattedText = textInfo.ToLower(value);
+                    break;
+                case StringCase.Title:
+                    formattedText = textInfo.ToTitleCase(value);
+                    break;
+                case StringCase.Sentence:
+                    formattedText = (isFirst ? textInfo.ToTitleCase(value) : textInfo.ToLower(value));
+                    break;
+                case StringCase.Camel:
+                    formattedText = (isFirst ? textInfo.ToLower(value) : textInfo.ToTitleCase(value));
+                    break;
+                case StringCase.Pascal:
+                    formattedText = textInfo.ToTitleCase(value);
+                    break;
+                case StringCase.Snake:
+                case StringCase.Kebab:
+                    formattedText = textInfo.ToLower(value);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Case of type {stringCase} is not valid");
+            }
+
+            return formattedText;
         }
     }
 }
