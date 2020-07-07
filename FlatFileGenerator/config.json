@@ -2,7 +2,7 @@
   "fileName": "test.csv",
   "showRowNumber": true,
   "seperator": ",",
-  "rows": 1000,
+  "rows": 1,
   "columns": [
     {
       "name": "Row id",
@@ -26,19 +26,35 @@
       "name": "First Name",
       "type": "string",
       "config": {
-        "prefix": "KJDS"
+        "prefix": "KJDS",
+        "case": "title"
       }
     },
     {
       "name": "Last Name",
       "type": "string",
       "config": {
-        "length": "2|5"
+        "length": "2|5",
+        "case": "sentence"
       }
     },
     {
       "name": "SortCode",
-      "type": "int"
+      "type": "int",
+      "config": {
+        "prefix": "TEST-",
+        "suffix": "SERIES"
+      }
+    },
+    {
+      "name": "Account Number",
+      "type": "int",
+      "config": {
+        "prefix": "SAS-",
+        "increment": true,
+        "min": 1000,
+        "interval": 10
+      }
     },
     {
       "name": "Email",
