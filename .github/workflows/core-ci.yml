@@ -1,4 +1,4 @@
-name: .NET Core
+name: Core Package CI
 
 on:
   push:
