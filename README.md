@@ -2,6 +2,8 @@
 
 [![NuGet version (FlatFileGenerator.Core)](https://img.shields.io/nuget/v/FlatFileGenerator.Core.svg?style=flat-square)](https://www.nuget.org/packages/FlatFileGenerator.Core/)
 
+![Core Package CI](https://github.com/JDSRAO/FlatFileGenerator/workflows/Core%20Package%20CI/badge.svg?branch=master)
+
 Flat file generator with configurable options such as file seperator, file name, column name, column type and column configuration
 
 ## Help us improve the application
