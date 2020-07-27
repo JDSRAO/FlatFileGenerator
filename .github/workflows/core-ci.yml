@@ -58,4 +58,4 @@ jobs:
         # Artifact name
         name: ${{env.CONSOLE_PROJECT}}
         # A file, directory or wildcard pattern that describes what to upload
-        path: "${{ github.workspace }}/${{env.CONSOLE_PROJECT}}/bin/Release/netcoreapp3.1/publish"
+        path: "${{ github.workspace }}/bin/Release/netcoreapp3.1/publish"
