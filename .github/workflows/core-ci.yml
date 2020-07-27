@@ -9,7 +9,8 @@ on:
 env:
   PACKAGE_PATH: './published'      # set this to the path to your web app project, defaults to the repository root
   NETCORE_VERSION: '3.1.301'
-  NUGET_PROJECT: 'FlatFileGenerator.Core'  
+  NUGET_PROJECT: 'FlatFileGenerator.Core'
+  CONSOLE_PROJECT: 'FlatFileGenerator'   
 
 jobs:
   build:
@@ -24,25 +25,37 @@ jobs:
       with:
         dotnet-version: ${{ env.NETCORE_VERSON }}
     
-    - name: Install dependencies
+    - name: Install dependencies for all projects
       run: dotnet restore
       
-    - name: Build
+    - name: Build all projects
       run: dotnet build --configuration Release --no-restore
+    
+    - name: Publish
+      run: dotnet publish
       
     #- name: Test
     #  run: dotnet test --no-restore --verbosity normal
     
-    - name: Create package folder
+    - name: Create nuget package folder
       run: mkdir ${{ github.workspace }}/package
       
-    - name: Create nuget package
-      run: dotnet pack --no-build -c Release ${{env.NUGET_PROJECT }} --output "${{ github.workspace }}/package"
+    - name: Create nuget package for ${{env.NUGET_PROJECT}}
+      run: dotnet pack --no-build -c Release ${{env.NUGET_PROJECT}} --output "${{ github.workspace }}/package"
     
     - name: Upload flatfile core nuget package
       uses: actions/upload-artifact@v2
       with:
         # Artifact name
-        name: Build Artifacts
+        name: ${{env.NUGET_PROJECT}} nuget package
         # A file, directory or wildcard pattern that describes what to upload
         path: "${{ github.workspace }}/package"
+        
+        
+    - name: Upload flatfile console app
+      uses: actions/upload-artifact@v2
+      with:
+        # Artifact name
+        name: ${{env.CONSOLE_PROJECT}}
+        # A file, directory or wildcard pattern that describes what to upload
+        path: "${{ github.workspace }}/${{env.CONSOLE_PROJECT}}/${{env.CONSOLE_PROJECT}}/bin/Release/netcoreapp3.1/publish"
