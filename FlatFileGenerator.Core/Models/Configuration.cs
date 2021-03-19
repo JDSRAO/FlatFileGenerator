@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FlatFileGenerator.Core.Models
 {
     /// <summary>
-    /// Describes file configuration
+    /// Flat file configuration
     /// </summary>
     public class Configuration
     {
