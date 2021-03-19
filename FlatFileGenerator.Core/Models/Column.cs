@@ -7,7 +7,7 @@ using FlatFileGenerator.Core.Extensions;
 namespace FlatFileGenerator.Core.Models
 {
     /// <summary>
-    /// Column configuration
+    /// Describes Column configuration
     /// </summary>
     public class Column
     {
@@ -26,6 +26,9 @@ namespace FlatFileGenerator.Core.Models
         /// </summary>
         public Dictionary<string, object> Config { get; set; }
 
+        /// <summary>
+        /// Inititalizes a new instance of <see cref="Column"/> class.
+        /// </summary>
         public Column()
         {
             Config = new Dictionary<string, object>();

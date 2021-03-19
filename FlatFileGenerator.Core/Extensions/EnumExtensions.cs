@@ -7,6 +7,10 @@ using System.Text;
 
 namespace FlatFileGenerator.Core.Extensions
 {
+    /// <summary>
+    /// Contains extension methods for <see cref="System.Enum"/>.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public static class EnumExtensions<T> where T : struct, IConvertible
     {
         public static IList<T> GetValues(Enum value)
