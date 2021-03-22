@@ -82,6 +82,44 @@ namespace FlatFileGenerator.Core.Models
             return flatFilePath;
         }
 
+        /// <summary>
+        /// Generate and write flat file to the <paramref name="path"/> provided based on the current configuration.
+        /// </summary>
+        /// <param name="path">Path to generate file.</param>
+        /// <returns>Path where the file is written.</returns>
+        public string WriteFlatFileToDisk(string path = null)
+        {
+            string flatFilePath = null;
+            if (string.IsNullOrEmpty(path))
+            {
+                var flatFileName = $"{DateTime.UtcNow:yyyyMMddHHmmssffff}_{this.FileName}";
+                var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
+                flatFilePath = Path.Combine(baseFilePath, flatFileName);
+                if (!Directory.Exists(baseFilePath))
+                {
+                    Directory.CreateDirectory(baseFilePath);
+                }
+            }
+            else
+            {
+                flatFilePath = path;
+            }
+
+            string flatFileContent = GenerateFlatFileContent(this);
+
+            File.WriteAllText(flatFilePath, flatFileContent);
+            return flatFilePath;
+        }
+
+        /// <summary>
+        /// Generate flat file content based on the configuration.
+        /// </summary>
+        /// <returns>Flat file content.</returns>
+        public string GenerateFlatFile()
+        {
+            return GenerateFlatFileContent(this);
+        }
+
         private static string GenerateFlatFileContent(Configuration config)
         {
             if (string.IsNullOrEmpty(config.Seperator) && config.FileName.EndsWith(".csv"))

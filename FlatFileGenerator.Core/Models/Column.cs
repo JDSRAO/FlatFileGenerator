@@ -53,12 +53,7 @@ namespace FlatFileGenerator.Core.Models
         /// <returns>Value based on the column configuration.</returns>
         public dynamic GetColumnValue()
         {
-            return GetColumnValueFromConfiguration(new Column
-            {
-                Type = this.Type,
-                Config = this.Config,
-                Name = this.Name,
-            });
+            return GetColumnValueFromConfiguration(this);
         }
 
         /// <summary>
