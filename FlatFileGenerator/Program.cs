@@ -27,7 +27,6 @@ namespace FlatFileGenerator
                 ConsoleLogger.LogInformation("-- Generating flat file --");
                 var flatFileName = GetCurrentConfiguration().WriteFlatFileToDisk();
                 ConsoleLogger.LogInformation($"-- Flat file is generated at {flatFileName} --");
-                throw new Exception("timepadd");
             }
             catch (Exception ex)
             {
