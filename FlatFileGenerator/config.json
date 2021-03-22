@@ -12,7 +12,8 @@
       "name": "Created On",
       "type": "date",
       "config": {
-        "format": "dd-MM-yyyy"
+        "format": "dd-MM-yyyy",
+        "minYear": 2000
       }
     },
     {
