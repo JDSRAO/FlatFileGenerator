@@ -136,7 +136,13 @@ namespace FlatFileGenerator.Core.Models
         public static string RandomDate(Dictionary<string, object> config)
         {
             string format = config.GetValueOrExpected<string>(ColumnTypeDateConfiguration.Format, ColumnTypeDateConfiguration.DefaultFormat);
-            return DateTime.UtcNow.ToString(format);
+            var minYear = config.GetValueOrExpected<int>(ColumnTypeDateConfiguration.MinYear, 1);
+            var maxYear = config.GetValueOrExpected<int>(ColumnTypeDateConfiguration.MaxYear, DateTime.Now.Year);
+
+            var currentYear = random.Next(minYear, maxYear + 1);
+            var currentMonth = random.Next(1, 13);
+            var currentDay = random.Next(1, DateTime.DaysInMonth(currentYear, currentMonth) + 1);
+            return new DateTime(currentYear, currentMonth, currentDay).ToString(format);
         }
 
         /// <summary>
