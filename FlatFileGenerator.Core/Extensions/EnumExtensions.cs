@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="EnumExtensions.cs" company="KJDS Srinivasa Rao">
+// Copyright (c) KJDS Srinivasa Rao. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,8 +11,18 @@ using System.Text;
 
 namespace FlatFileGenerator.Core.Extensions
 {
-    public static class EnumExtensions<T> where T : struct, IConvertible
+    /// <summary>
+    /// Contains extension methods for <see cref="System.Enum"/>.
+    /// </summary>
+    /// <typeparam name="T">Class.</typeparam>
+    public static class EnumExtensions<T>
+        where T : struct, IConvertible
     {
+        /// <summary>
+        /// Gets all the values present in the given enum.
+        /// </summary>
+        /// <param name="value">Enum value.</param>
+        /// <returns>Enum values.</returns>
         public static IList<T> GetValues(Enum value)
         {
             var enumValues = new List<T>();
@@ -17,19 +31,31 @@ namespace FlatFileGenerator.Core.Extensions
             {
                 enumValues.Add((T)Enum.Parse(value.GetType(), fi.Name, false));
             }
+
             return enumValues;
         }
 
+        /// <summary>
+        /// Parses an string value to enum.
+        /// </summary>
+        /// <param name="value">string enum value.</param>
+        /// <returns>Parsed enum value.</returns>
         public static T Parse(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
+        /// <summary>
+        /// Parses the given value wrt diplay attribute name property.
+        /// </summary>
+        /// <param name="value">string value.</param>
+        /// <param name="ignoreCase">Should ignore string case.</param>
+        /// <returns>Parsed enum values.</returns>
         public static T ParseDisplayName(string value, bool ignoreCase = true)
         {
             List<EnumResults> enumMetadata = GetEnumMetadata();
 
-            T parsedEnum = default(T);
+            T parsedEnum = default;
             EnumResults currentEnumMetada;
             if (ignoreCase)
             {
@@ -40,7 +66,7 @@ namespace FlatFileGenerator.Core.Extensions
             {
                 currentEnumMetada = enumMetadata.Where(x => x.DisplayAttribute.Name.Equals(value)).FirstOrDefault();
             }
-            
+
             if (currentEnumMetada != null)
             {
                 if (Enum.TryParse<T>(currentEnumMetada.FieldInfo.Name, out parsedEnum))
@@ -58,16 +84,31 @@ namespace FlatFileGenerator.Core.Extensions
             }
         }
 
+        /// <summary>
+        /// Gets names of all the enum values for a given type.
+        /// </summary>
+        /// <param name="value">Enum type value.</param>
+        /// <returns>List of all enum values.</returns>
         public static IList<string> GetNames(Enum value)
         {
             return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name).ToList();
         }
 
+        /// <summary>
+        /// Gets a list of all <see cref="DisplayAttribute"/> <see cref="DisplayAttribute.Name"/> property values.
+        /// </summary>
+        /// <param name="value">Enum value.</param>
+        /// <returns>List of all <see cref="DisplayAttribute"/> <see cref="DisplayAttribute.Name"/> property values. </returns>
         public static IList<string> GetDisplayValues(Enum value)
         {
             return GetNames(value).Select(obj => GetDisplayValue(Parse(obj))).ToList();
         }
 
+        /// <summary>
+        /// Gets the name of <see cref="DisplayAttribute.Name"/> property value.
+        /// </summary>
+        /// <param name="value">Enum value.</param>
+        /// <returns>Associated <see cref="DisplayAttribute.Name"/> property value.</returns>
         public static string GetDisplayValue(T value)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
@@ -76,9 +117,15 @@ namespace FlatFileGenerator.Core.Extensions
                 typeof(DisplayAttribute), false) as DisplayAttribute[];
 
             if (descriptionAttributes[0].ResourceType != null)
+            {
                 return LookupResource(descriptionAttributes[0].ResourceType, descriptionAttributes[0].Name);
+            }
 
-            if (descriptionAttributes == null) return string.Empty;
+            if (descriptionAttributes == null)
+            {
+                return string.Empty;
+            }
+
             return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Name : value.ToString();
         }
 
@@ -108,7 +155,7 @@ namespace FlatFileGenerator.Core.Extensions
                     var enumResult = new EnumResults
                     {
                         DisplayAttribute = descriptionAttribute,
-                        FieldInfo = fieldInfo
+                        FieldInfo = fieldInfo,
                     };
                     enumMetadata.Add(enumResult);
                 }
@@ -116,11 +163,21 @@ namespace FlatFileGenerator.Core.Extensions
 
             return enumMetadata;
         }
-    }
 
-    internal class EnumResults
-    {
-        public DisplayAttribute DisplayAttribute { get; set; }
-        public FieldInfo FieldInfo { get; set; }
+        /// <summary>
+        /// Describes enum results.
+        /// </summary>
+        internal class EnumResults
+        {
+            /// <summary>
+            /// Gets or sets DisplayAttribute.
+            /// </summary>
+            public DisplayAttribute DisplayAttribute { get; set; }
+
+            /// <summary>
+            /// Gets or sets FieldInfo.
+            /// </summary>
+            public FieldInfo FieldInfo { get; set; }
+        }
     }
 }

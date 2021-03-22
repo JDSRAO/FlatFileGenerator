@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageProjectUrl>https://github.com/JDSRAO/FlatFileGenerator</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/JDSRAO/FlatFileGenerator/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Authors>KJDS Srinivasa Rao</Authors>
     <Product>KJDS.FlatFileGenerator.Core</Product>
     <Version>1.0.4.0</Version>
@@ -20,6 +20,10 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../LICENSE" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>

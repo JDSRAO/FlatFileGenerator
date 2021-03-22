@@ -1,15 +1,24 @@
-﻿using FlatFileGenerator.Core.Models;
+﻿// <copyright file="Program.cs" company="KJDS Srinivasa Rao">
+// Copyright (c) KJDS Srinivasa Rao. All rights reserved.
+// </copyright>
+
+using FlatFileGenerator.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace FlatFileGenerator
 {
-    class Program
+    /// <summary>
+    /// FlatFileGenerator program.
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// FlatFileGenerator main method.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
+        public static void Main(string[] args)
         {
             Console.WriteLine("-- Welcome to flat file generator --");
             Console.WriteLine("-- Reading configuration --");
@@ -29,7 +38,7 @@ namespace FlatFileGenerator
             Console.ReadLine();
         }
 
-        static Configuration GetCurrentConfiguration()
+        private static Configuration GetCurrentConfiguration()
         {
             var fileName = "config.json";
             var fileNameWithPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
@@ -37,6 +46,7 @@ namespace FlatFileGenerator
             {
                 throw new FileNotFoundException("Configuration file not found", fileName);
             }
+
             var configJson = File.ReadAllText(fileNameWithPath);
             return JsonConvert.DeserializeObject<Configuration>(configJson);
         }
