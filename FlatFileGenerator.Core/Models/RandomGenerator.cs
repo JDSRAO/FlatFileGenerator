@@ -112,18 +112,18 @@ namespace FlatFileGenerator.Core.Models
 
             var prefix = column.Config.GetValueOrExpected<string>(ColumnTypeIntegerConfiguration.Prefix, string.Empty);
             var suffix = column.Config.GetValueOrExpected<string>(ColumnTypeIntegerConfiguration.Suffix, string.Empty);
-            var number = $"{value}";
+            var number = new StringBuilder(value);
             if (!string.IsNullOrEmpty(prefix))
             {
-                number = $"{prefix}{value}";
+                number.Prepend(prefix);
             }
 
             if (!string.IsNullOrEmpty(suffix))
             {
-                number = $"{number}{suffix}";
+                number.Append(suffix);
             }
 
-            return number;
+            return number.ToString();
         }
 
         /// <summary>
@@ -180,7 +180,13 @@ namespace FlatFileGenerator.Core.Models
         /// <returns>Ramdom email.</returns>
         public static string RandomEmail(Dictionary<string, object> config)
         {
-            return $"{GenerateString(5)}@{GenerateString(5)}.{GenerateString(3)}".ToLower();
+            var email = new StringBuilder();
+            email.Append(GenerateString(5));
+            email.Append("@");
+            email.Append(GenerateString(5));
+            email.Append(".");
+            email.Append(GenerateString(3));
+            return email.ToString().ToLower();
         }
 
         /// <summary>
