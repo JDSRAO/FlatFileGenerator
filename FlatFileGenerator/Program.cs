@@ -20,21 +20,20 @@ namespace FlatFileGenerator
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            Console.WriteLine("-- Welcome to flat file generator --");
-            Console.WriteLine("-- Reading configuration --");
+            ConsoleLogger.LogInformation("-- Welcome to flat file generator --");
+            ConsoleLogger.LogInformation("-- Reading configuration --");
             try
             {
-                Console.WriteLine("-- Generating flat file --");
+                ConsoleLogger.LogInformation("-- Generating flat file --");
                 var flatFileName = GetCurrentConfiguration().WriteFlatFileToDisk();
-                Console.WriteLine($"-- Flat file is generated at {flatFileName} --");
+                ConsoleLogger.LogInformation($"-- Flat file is generated at {flatFileName} --");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("-- Error occurred while generating flat file --");
-                Console.WriteLine(ex.Message);
+                ConsoleLogger.LogError("-- Error occurred while generating flat file --", ex);
             }
 
-            Console.WriteLine("Completed. Please press enter to exit");
+            ConsoleLogger.LogInformation("Completed. Please press enter to exit");
             Console.ReadLine();
         }
 
