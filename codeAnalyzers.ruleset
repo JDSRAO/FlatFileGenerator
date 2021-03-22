@@ -200,7 +200,7 @@
         <Rule Id="SA1636"  Action="Warning" />          <!-- File header copyright text should match -->
         <Rule Id="SA1637"  Action="Warning" />          <!-- File header should contain file name -->
         <Rule Id="SA1638"  Action="Warning" />          <!-- File header file name documentation should match file name -->
-        <Rule Id="SA1639"  Action="Warning" />          <!-- File header should have summary -->
+        <Rule Id="SA1639"  Action="None" />             <!-- File header should have summary -->
         <Rule Id="SA1640"  Action="Warning" />          <!-- File header should have valid company text -->
         <Rule Id="SA1641"  Action="Warning" />          <!-- File header company name text should match -->
         <Rule Id="SA1642"  Action="Warning" />          <!-- Constructor summary documentation should begin with standard text -->
