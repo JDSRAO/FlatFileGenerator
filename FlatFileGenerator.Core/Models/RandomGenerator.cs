@@ -55,11 +55,9 @@ namespace FlatFileGenerator.Core.Models
             else
             {
                 var wordLengths = lenghtConfig.Split('|');
-                int size = 5;
                 for (int i = 0; i < wordLengths.Length; i++)
                 {
-                    size = Convert.ToInt32(wordLengths[i]);
-                    var text = GenerateString(size);
+                    var text = GenerateString(Convert.ToInt32(wordLengths[i]));
                     var formattedText = StringCaseFormatter(textCase, text, textInfo, i == 0);
                     generatedString.Append(formattedText + textSeperator);
                 }
@@ -67,21 +65,21 @@ namespace FlatFileGenerator.Core.Models
                 generatedString.Remove(generatedString.Length - 1, 1);
             }
 
-            string randomString = generatedString.ToString().Trim();
+            var randomString = new StringBuilder(generatedString.ToString().Trim());
 
             var prefix = config.GetValueOrExpected<string>(ColumnTypeStringConfiguration.Prefix, string.Empty);
             var suffix = config.GetValueOrExpected<string>(ColumnTypeStringConfiguration.Suffix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
-                randomString = $"{prefix}{randomString}";
+                randomString.Prepend(prefix);
             }
 
             if (!string.IsNullOrEmpty(suffix))
             {
-                randomString = $"{randomString}{suffix}";
+                randomString.Append(suffix);
             }
 
-            return randomString;
+            return randomString.ToString();
         }
 
         /// <summary>
@@ -93,12 +91,12 @@ namespace FlatFileGenerator.Core.Models
         {
             int min = column.Config.GetValueOrExpected<int>(ColumnTypeIntegerConfiguration.Min, 1);
             bool increment = column.Config.GetValueOrExpected<bool>(ColumnTypeIntegerConfiguration.Increment, false);
-            int value = 0;
+            int value;
             if (increment)
             {
                 var interval = column.Config.GetValueOrExpected<int>(ColumnTypeIntegerConfiguration.Interval, 1);
                 value = min;
-                min = min + interval;
+                min += interval;
                 column.Config[ColumnTypeIntegerConfiguration.Min] = min;
             }
             else
@@ -114,18 +112,18 @@ namespace FlatFileGenerator.Core.Models
 
             var prefix = column.Config.GetValueOrExpected<string>(ColumnTypeIntegerConfiguration.Prefix, string.Empty);
             var suffix = column.Config.GetValueOrExpected<string>(ColumnTypeIntegerConfiguration.Suffix, string.Empty);
-            var number = $"{value}";
+            var number = new StringBuilder(value);
             if (!string.IsNullOrEmpty(prefix))
             {
-                number = $"{prefix}{value}";
+                number.Prepend(prefix);
             }
 
             if (!string.IsNullOrEmpty(suffix))
             {
-                number = $"{number}{suffix}";
+                number.Append(suffix);
             }
 
-            return number;
+            return number.ToString();
         }
 
         /// <summary>
@@ -182,7 +180,13 @@ namespace FlatFileGenerator.Core.Models
         /// <returns>Ramdom email.</returns>
         public static string RandomEmail(Dictionary<string, object> config)
         {
-            return $"{GenerateString(5)}@{GenerateString(5)}.{GenerateString(3)}".ToLower();
+            var email = new StringBuilder();
+            email.Append(GenerateString(5));
+            email.Append("@");
+            email.Append(GenerateString(5));
+            email.Append(".");
+            email.Append(GenerateString(3));
+            return email.ToString().ToLower();
         }
 
         /// <summary>
@@ -213,15 +217,15 @@ namespace FlatFileGenerator.Core.Models
             else
             {
                 dynamic items;
-                int itemsCount = 0;
-                if (config[ColumnTypeListConfiguration.Items] is object[])
+                int itemsCount;
+                if (config[ColumnTypeListConfiguration.Items] is object[] listItems)
                 {
-                    items = (object[])config[ColumnTypeListConfiguration.Items];
+                    items = listItems;
                     itemsCount = items.Length;
                 }
-                else if (config[ColumnTypeListConfiguration.Items] is JArray)
+                else if (config[ColumnTypeListConfiguration.Items] is JArray array)
                 {
-                    items = (JArray)config[ColumnTypeListConfiguration.Items];
+                    items = array;
                     itemsCount = items.Count;
                 }
                 else
@@ -259,7 +263,7 @@ namespace FlatFileGenerator.Core.Models
 
         private static string StringCaseFormatter(ColumnTypeStringCaseConfiguration stringCase, string value, TextInfo textInfo, bool isFirst)
         {
-            var formattedText = value;
+            string formattedText;
             switch (stringCase)
             {
                 case ColumnTypeStringCaseConfiguration.Upper:

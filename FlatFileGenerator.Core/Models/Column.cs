@@ -64,7 +64,7 @@ namespace FlatFileGenerator.Core.Models
         private static dynamic GetColumnValueFromConfiguration(Column column)
         {
             var columnType = EnumExtensions<ColumnType>.ParseDisplayName(column.Type);
-            dynamic columnValue = null;
+            dynamic columnValue;
             switch (columnType)
             {
                 case ColumnType.StringType:

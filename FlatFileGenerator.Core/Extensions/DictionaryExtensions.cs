@@ -23,8 +23,7 @@ namespace FlatFileGenerator.Core.Extensions
         public static T GetValueOrExpected<T>(this Dictionary<string, object> dict, string key, object expectedValue)
         {
             T value;
-            object dictValue;
-            dict.TryGetValue(key, out dictValue);
+            dict.TryGetValue(key, out object dictValue);
             if (dictValue == null)
             {
                 value = (T)expectedValue;
@@ -48,8 +47,7 @@ namespace FlatFileGenerator.Core.Extensions
         /// <returns>Value or default value.</returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueProvider)
         {
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value
+            return dictionary.TryGetValue(key, out TValue value) ? value
                  : defaultValueProvider();
         }
     }
