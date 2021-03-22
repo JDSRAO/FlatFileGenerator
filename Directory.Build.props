@@ -1,0 +1,25 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Create a property pointing to the root of the repository; ends with backslash. -->
+    <RepositoryRootPath>$(MSBuildThisFileDirectory)</RepositoryRootPath>
+    
+    <!-- Define code analysis rules for all projects in the repository. -->
+    <CodeAnalysisRuleSet>$(RepositoryRootPath)\codeAnalyzers.ruleset</CodeAnalysisRuleSet>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors> 
+    <LangVersion>7.3</LangVersion>
+    <MSBuildWarningsAsErrors>MSB3277;</MSBuildWarningsAsErrors>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <AdditionalFiles Include="$(RepositoryRootPath)\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Add reference to StyleCop analyzers to all projects  -->
+	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+      <AdditionalFiles Include="$(RepositoryRootPath)\stylecop.json" />
+    </ItemGroup>
+</Project>
