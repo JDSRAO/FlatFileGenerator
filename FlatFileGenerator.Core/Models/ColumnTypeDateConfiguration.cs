@@ -18,5 +18,15 @@ namespace FlatFileGenerator.Core.Models
         /// Default date format.
         /// </summary>
         public const string DefaultFormat = "yyyyMMddHHmmssffff";
+
+        /// <summary>
+        /// Minimum value of year from which the random date must be generated. By default this is set to 1/1/0001 12:00:00 AM.
+        /// </summary>
+        public const string MinYear = "minYear";
+
+        /// <summary>
+        /// Maximum value of year from which the random date must be generated. By default this is set to current date.
+        /// </summary>
+        public const string MaxYear = "maxYear";
     }
 }
