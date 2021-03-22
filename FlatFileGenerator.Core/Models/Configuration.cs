@@ -60,10 +60,48 @@ namespace FlatFileGenerator.Core.Models
         /// <returns>Path where the file is written.</returns>
         public static string WriteFlatFileToDisk(Configuration config, string path = null)
         {
-            string flatFilePath = null;
+            string flatFilePath = GenerateFilePath(config.FileName, path);
+            string flatFileContent = GenerateFlatFileContent(config);
+
+            File.WriteAllText(flatFilePath, flatFileContent);
+            return flatFilePath;
+        }
+
+        /// <summary>
+        /// Generate and write flat file to the <paramref name="path"/> provided based on the current configuration.
+        /// </summary>
+        /// <param name="path">Path to generate file.</param>
+        /// <returns>Path where the file is written.</returns>
+        public string WriteFlatFileToDisk(string path = null)
+        {
+            string flatFilePath = GenerateFilePath(this.FileName, path);
+            string flatFileContent = GenerateFlatFileContent(this);
+
+            File.WriteAllText(flatFilePath, flatFileContent);
+            return flatFilePath;
+        }
+
+        /// <summary>
+        /// Generate flat file content based on the configuration.
+        /// </summary>
+        /// <returns>Flat file content.</returns>
+        public string GenerateFlatFile()
+        {
+            return GenerateFlatFileContent(this);
+        }
+
+        /// <summary>
+        /// Generates flat file path.
+        /// </summary>
+        /// <param name="fileName">File name.</param>
+        /// <param name="path">Directory location.</param>
+        /// <returns>File path.</returns>
+        private static string GenerateFilePath(string fileName, string path)
+        {
+            string flatFilePath;
             if (string.IsNullOrEmpty(path))
             {
-                var flatFileName = $"{DateTime.UtcNow.ToString("yyyyMMddHHmmssffff")}_{config.FileName}";
+                var flatFileName = $"{DateTime.UtcNow:yyyyMMddHHmmssffff}_{fileName}";
                 var baseFilePath = Path.Combine(Directory.GetCurrentDirectory(), "files");
                 flatFilePath = Path.Combine(baseFilePath, flatFileName);
                 if (!Directory.Exists(baseFilePath))
@@ -76,12 +114,14 @@ namespace FlatFileGenerator.Core.Models
                 flatFilePath = path;
             }
 
-            string flatFileContent = GenerateFlatFileContent(config);
-
-            File.WriteAllText(flatFilePath, flatFileContent);
             return flatFilePath;
         }
 
+        /// <summary>
+        /// Generates file content.
+        /// </summary>
+        /// <param name="config">File configuration.</param>
+        /// <returns>File content.</returns>
         private static string GenerateFlatFileContent(Configuration config)
         {
             if (string.IsNullOrEmpty(config.Seperator) && config.FileName.EndsWith(".csv"))
