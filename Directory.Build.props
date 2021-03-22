@@ -13,13 +13,10 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <AdditionalFiles Include="$(RepositoryRootPath)\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- Add reference to StyleCop analyzers to all projects  -->
-	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
-      <AdditionalFiles Include="$(RepositoryRootPath)\stylecop.json" />
+     <!--Add reference to StyleCop analyzers to all projects-->  
+	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" /> 
+    <AdditionalFiles Include="$(RepositoryRootPath)\stylecop.json" />
     </ItemGroup>
 </Project>
