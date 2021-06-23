@@ -112,7 +112,7 @@ namespace FlatFileGenerator.Core.Models
 
             var prefix = column.Config.GetValueOrExpected<string>(ColumnTypeIntegerConfiguration.Prefix, string.Empty);
             var suffix = column.Config.GetValueOrExpected<string>(ColumnTypeIntegerConfiguration.Suffix, string.Empty);
-            var number = new StringBuilder(value);
+            var number = new StringBuilder(Convert.ToString(value));
             if (!string.IsNullOrEmpty(prefix))
             {
                 number.Prepend(prefix);
