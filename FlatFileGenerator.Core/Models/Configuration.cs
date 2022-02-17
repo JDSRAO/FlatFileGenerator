@@ -73,13 +73,12 @@ namespace FlatFileGenerator.Core.Models
         }
 
         /// <summary>
-        /// Generate and write flat file to the <paramref name="path"/> provided based on the current configuration.
+        /// Generate and write flat file to the file path provided based on the current configuration.
         /// </summary>
-        /// <param name="path">Path to generate file.</param>
         /// <returns>Path where the file is written.</returns>
-        public string WriteFlatFileToDisk(string path = null)
+        public string WriteFlatFileToDisk()
         {
-            string flatFilePath = GenerateFilePath(this.FileName, path);
+            string flatFilePath = GenerateFilePath(this.FileName, this.FilePath);
             string flatFileContent = GenerateFlatFileContent(this);
 
             File.WriteAllText(flatFilePath, flatFileContent);
@@ -121,7 +120,7 @@ namespace FlatFileGenerator.Core.Models
                     Directory.CreateDirectory(path);
                 }
 
-                flatFilePath = path;
+                flatFilePath = Path.Combine(path, fileName);
             }
 
             return flatFilePath;
