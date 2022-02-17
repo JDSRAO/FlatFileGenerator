@@ -1,5 +1,6 @@
 {
   "fileName": "test.csv",
+  "filePath":  null,
   "showRowNumber": true,
   "seperator": ",",
   "rows": 1,
