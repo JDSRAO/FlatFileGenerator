@@ -23,6 +23,11 @@ namespace FlatFileGenerator.Core.Models
         public string FileName { get; set; }
 
         /// <summary>
+        /// Gets or sets file path.
+        /// </summary>
+        public string FilePath { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to shows row number in the generated file.
         /// </summary>
         public bool ShowRowNumber { get; set; }
@@ -111,6 +116,11 @@ namespace FlatFileGenerator.Core.Models
             }
             else
             {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
                 flatFilePath = path;
             }
 
